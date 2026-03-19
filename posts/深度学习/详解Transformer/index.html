@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>详解Transformer | Yu's Blog</title><meta name="author" content="Yu"><meta name="copyright" content="Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f0f4f5"><meta name="description" content="详解Transformer 前言 自2017年问世以来，Transformer[1] 模型在 NLP 领域取得了巨大的成功，并在计算机视觉领域也取得了显著的进展。本文将详细介绍 Transformer 模型的结构、原理和实现，帮助读者更好地理解这一重要的深度学习模型。 背景 在 Transformer 之前，主流的序列转录模型（sequence transduction models）通常基于 R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解Transformer">
+<meta property="og:url" content="https://yuu-xie.github.io/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E8%A7%A3Transformer/index.html">
+<meta property="og:site_name" content="Yu&#39;s Blog">
+<meta property="og:description" content="详解Transformer 前言 自2017年问世以来，Transformer[1] 模型在 NLP 领域取得了巨大的成功，并在计算机视觉领域也取得了显著的进展。本文将详细介绍 Transformer 模型的结构、原理和实现，帮助读者更好地理解这一重要的深度学习模型。 背景 在 Transformer 之前，主流的序列转录模型（sequence transduction models）通常基于 R">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuu-xie.github.io/images/hanabi.png">
+<meta property="article:published_time" content="2026-03-19T07:42:31.000Z">
+<meta property="article:modified_time" content="2026-03-19T13:32:03.151Z">
+<meta property="article:author" content="Yu">
+<meta property="article:tag" content="Attention">
+<meta property="article:tag" content="Transformer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yuu-xie.github.io/images/hanabi.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "详解Transformer",
+  "url": "https://yuu-xie.github.io/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E8%A7%A3Transformer/",
+  "image": "https://yuu-xie.github.io/images/hanabi.png",
+  "datePublished": "2026-03-19T07:42:31.000Z",
+  "dateModified": "2026-03-19T13:32:03.151Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Yu",
+      "url": "https://github.com/Yuu-Xie"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yuu-xie.github.io/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E8%A7%A3Transformer/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#2c3638')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f0f4f5')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d4e128264f68a7c1557015e9cf6301be";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+btf.addGlobalFn('pjaxComplete', () => {
+  _hmt.push(['_trackPageview',window.location.pathname])
+}, 'baidu_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":240,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: Yu","link":"链接: ","source":"来源: Yu's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '详解Transformer',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/images/sanhe.png);"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Yu's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">详解Transformer</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">详解Transformer</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-19T07:42:31.000Z" title="发表于 2026-03-19 15:42:31">2026-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-19T13:32:03.151Z" title="更新于 2026-03-19 21:32:03">2026-03-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>详解Transformer</h1>
+<h2 id="前言">前言</h2>
+<p>自2017年问世以来，Transformer<sup><a href="#ref1">[1]</a></sup> 模型在 NLP 领域取得了巨大的成功，并在计算机视觉领域也取得了显著的进展。本文将详细介绍 Transformer 模型的结构、原理和实现，帮助读者更好地理解这一重要的深度学习模型。</p>
+<h2 id="背景">背景</h2>
+<p>在 Transformer 之前，主流的<strong>序列转录模型</strong>（sequence transduction models）通常基于 RNN 或 CNN 构建。这类模型普遍采用编码器-解码器架构：编码器负责将输入序列处理成一组隐藏状态，而解码器则依据这些状态逐步生成目标输出序列。然而，RNN 和 CNN 在处理长序列时存在一些固有的问题，为了解决这些问题，Transformer 模型应运而生。</p>
+<h3 id="RNN">RNN</h3>
+<p>传统的序列转录模型通常使用 RNN（Recurrent Neural Network）来处理序列数据。RNN 通过递归的方式，将序列中的每个元素作为输入，并生成一个输出。</p>
+<figure id="fig-rnn-encoder">
+  <img src="RNN-Encoder.svg" alt="RNN-Encoder">
+  <figcaption>RNN 编码器</figcaption>
+</figure>
+<p>如<a href="#fig-rnn-encoder"><u>图1</u></a>所示，RNN 编码器将输入序列 $x_1, x_2, \ldots, x_n$ 逐个输入，并生成对应的隐藏状态 $h_1, h_2, \ldots, h_n$。每个隐藏状态 $h_i$ 都依赖于前一个隐藏状态 $h_{i-1}$ 和当前输入 $x_i$。这种递归的方式使得 RNN 能够捕捉序列中的长距离依赖关系。</p>
+<p>循环神经网络（RNN）在处理长序列时存在几个固有缺陷。首先，如果只保留最后一个时间步的隐藏状态作为输出，序列前期的信息很容易在传递过程中丢失。虽然引入注意力机制、利用所有隐藏状态能缓解这一问题，但 RNN 的递归结构本身带来了更根本的挑战：每个隐藏状态的计算都必须依赖前一个状态，这种链式求导机制容易引发梯度消失或梯度爆炸，导致模型难以捕捉长距离依赖。此外，RNN 严格按时间步顺序（如从左到右）计算，这种串行特性使其在训练时很难进行并行加速。</p>
+<h3 id="CNN">CNN</h3>
+<p>为了克服 RNN 的局限性，人们尝试使用卷积神经网络（CNN）来处理序列数据。CNN 通过卷积操作捕捉局部特征，并且值得高兴的是，CNN 可以利用并行计算加速训练。</p>
+<figure id="fig-cnn">
+  <img src="CNN.svg" alt="CNN">
+  <figcaption>利用 CNN 进行序列建模的方法</figcaption>
+</figure>
+<p>使用 CNN 的另一个好处是，输出的不同通道可以捕捉到不同的特征。例如，在<a href="#fig-cnn"><u>图2</u></a>中，我们可以期待输出的第一个通道可以捕捉到输入序列的某一种特征，而第二个通道可以捕捉到与之不同的另一种特征。</p>
+<p>但是，CNN 的卷积核具有固定的感受野（receptive field），要想捕捉到长距离依赖，就必须堆叠多层卷积来逐步扩大感受野。将来自两个任意输入或输出位置的信号相关联所需的操作数量在位置之间的距离上呈线性增长<sup><a href="#ref2">[2]</a></sup>，这会使得学习远距离依赖变得十分困难。</p>
+<h2 id="模型结构">模型结构</h2>
+<p>基于上述背景，Vaswani 等人提出了 Transformer 模型，该模型舍弃了 RNN 和 CNN，完全基于注意力机制，并同样采用编码器-解码器架构。</p>
+<figure id="fig-model">
+  <img src="transformer.svg" alt="transformer model architecture">
+  <figcaption>Transfomer 模型结构</figcaption>
+</figure>
+<h3 id="Encoder">Encoder</h3>
+<p>原始的 Transformer 模型中，编码器由 $N=6$ 个相同的层堆叠而成，每个层包含两个子层：多头自注意力机制（Multi-Head Self-Attention）和前馈神经网络（Feed Forward Neural Network）。这两个子层之间使用了残差连接（Residual Connection）和层归一化（Layer Normalization）。</p>
+<p>由于残差连接需要输入和输出具有相同的维度，因此 Transformer 编码器的输入和输出维度通常相同。在原论文中，输入和输出维度 $d_{\text{model}}$ 被设定为 512。</p>
+<h3 id="Decoder">Decoder</h3>
+<h3 id="Multi-Head-Attention">Multi-Head Attention</h3>
+<h3 id="Positional-Encoding">Positional Encoding</h3>
+<h3 id="Layer-Normalization">Layer Normalization</h3>
+<p>由于 Transformer 处理的是变长序列，每个 batch 中的样本长度可能不同，因此不可以使用 Batch Normalization（BN），而需要使用 Layer Normalization（LN）。</p>
+<figure id="#fig-ln-vs-bn">
+  <img src="ln-vs-bn.svg" alt="Layer Norm vs Batch Norm">
+  <figcaption>Batch Norm 和 Layer Norm 的对比</figcaption>
+</figure>
+<p>如<a href="fig-ln-vs-bn"><u>图?</u></a>所示，BN 沿着 batch 维度对不同样本的同一特征通道进行归一化，而 LN 则沿着特征维度对同一样本的所有特征进行归一化。一个直观的解释是，BN 基于一个前提：小批次的均值和方差近似于整个数据集的均值和方差，而输入序列长度的不同会导致在最后一个时间步（特征）上会有大量样本的对应值为空白填充符（padding），而 BN 会将这些空白填充符也纳入计算导致结果出现偏差。</p>
+<p>需要注意的是，Layer Normalization 的位置在原论文和 PyTorch 等现代常见实现中存在差异：</p>
+<ul>
+<li>
+<p>原始论文（Post-LN）：采用 Post-Layer Normalization 结构，即 “残差连接 → Layer Norm” 的顺序。每个子层（多头注意力或前馈网络）的输出先加上残差，再进行层归一化：</p>
+<p>$$<br>
+\text{Output}=\text{LayerNorm}(x+\text{Sublayer}(x))<br>
+$$</p>
+<p>这种设计在层数较少（如6层）时效果较好，但随着层数加深，容易出现梯度消失问题，训练不稳定。</p>
+</li>
+<li>
+<p>现代常见实现（Pre-LN）：大多数现代实现允许采用 Pre-Layer Normalization 结构，即 “Layer Norm → 子层 → 残差连接” 的顺序：</p>
+<p>$$<br>
+\text{Output}=x+\text{Sublayer}(\text{LayerNorm}(x))<br>
+$$</p>
+<p>这种设计使得残差路径更加&quot;干净&quot;，梯度可以直接回传，有效缓解了梯度消失问题，训练更稳定，适合堆叠更深层的模型。</p>
+</li>
+</ul>
+<div class="note info flat"><p>研究表明，Post-LN 在浅层网络中表现更好，但训练不稳定；而 Pre-LN 虽然训练稳定，但在深层网络中可能导致高层表示效率降低。</p>
+</div>
+<h3 id="Feed-Forward-Neural-Network">Feed Forward Neural Network</h3>
+<h2 id="代码实现">代码实现</h2>
+<h3 id="Encoder-2">Encoder</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TransformerEncoder</span>(nn.Module):</span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params"></span></span><br><span class="line"><span class="params">    self,</span></span><br><span class="line"><span class="params">    d_model,</span></span><br><span class="line"><span class="params">    nhead,</span></span><br><span class="line"><span class="params">    dim_feedforward=<span class="number">2048</span>,</span></span><br><span class="line"><span class="params">    dropout=<span class="number">0.1</span>,</span></span><br><span class="line"><span class="params">    batch_first=<span class="literal">True</span>,</span></span><br><span class="line"><span class="params">    norm_first=<span class="literal">False</span></span></span><br><span class="line"><span class="params">  </span>):</span><br><span class="line">    <span class="built_in">super</span>().__init__()</span><br><span class="line">    <span class="variable language_">self</span>.self_attn = nn.MultiheadAttention(</span><br><span class="line">      d_model,</span><br><span class="line">      nhead,</span><br><span class="line">      dropout=dropout,</span><br><span class="line">      batch_first=batch_first</span><br><span class="line">    )</span><br><span class="line">    <span class="variable language_">self</span>.linear1 = nn.Linear(d_model, dim_feedforward)</span><br><span class="line">    <span class="variable language_">self</span>.dropout = nn.Dropout(dropout)</span><br><span class="line">    <span class="variable language_">self</span>.linear2 = nn.Linear(dim_feedforward, d_model)</span><br><span class="line">    <span class="variable language_">self</span>.norm1 = nn.LayerNorm(d_model)</span><br><span class="line">    <span class="variable language_">self</span>.norm2 = nn.LayerNorm(d_model)</span><br><span class="line">    <span class="variable language_">self</span>.dropout1 = nn.Dropout(dropout)</span><br><span class="line">    <span class="variable language_">self</span>.dropout2 = nn.Dropout(dropout)</span><br><span class="line">    <span class="variable language_">self</span>.activation = nn.ReLU()</span><br><span class="line">    <span class="variable language_">self</span>.batch_first = batch_first</span><br><span class="line">    <span class="variable language_">self</span>.norm_first = norm_first  <span class="comment"># True: Pre-LN, False: Post-LN</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, src</span>):</span><br><span class="line">    x = src</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="variable language_">self</span>.norm_first:  <span class="comment"># Pre-LN</span></span><br><span class="line">      x = x + <span class="variable language_">self</span>._sa_block(<span class="variable language_">self</span>.norm1(x))</span><br><span class="line">      x = x + <span class="variable language_">self</span>._ff_block(<span class="variable language_">self</span>.norm2(x))</span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment"># Post-LN</span></span><br><span class="line">      x = <span class="variable language_">self</span>.norm1(x + <span class="variable language_">self</span>._sa_block(x))</span><br><span class="line">      x = <span class="variable language_">self</span>.norm2(x + <span class="variable language_">self</span>._ff_block(x))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line">  <span class="comment"># self-attention block</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">_sa_block</span>(<span class="params">self, x</span>):</span><br><span class="line">    x = <span class="variable language_">self</span>.self_attn(x, x, x, need_weights=<span class="literal">False</span>)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">self</span>.dropout1(x)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># feed forward block</span></span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">_ff_block</span>(<span class="params">self, x</span>):</span><br><span class="line">    x = <span class="variable language_">self</span>.linear2(<span class="variable language_">self</span>.dropout(<span class="variable language_">self</span>.activation(<span class="variable language_">self</span>.linear1(x))))</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">self</span>.dropout2(x)</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<h2 id="参考文献">参考文献</h2>
+<div id="ref1">
+[1] Vaswani A, Shazeer N, Parmar N, et al. Attention is all you need[J]. Advances in neural information processing systems, 2017, 30.
+</div>
+<div id="ref2">
+[2] Gehring J, Auli M, Grangier D, et al. Convolutional sequence to sequence learning[C]//International conference on machine learning. PMLR, 2017: 1243-1252.
+</div>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/Yuu-Xie">Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://yuu-xie.github.io/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E8%A7%A3Transformer/">https://yuu-xie.github.io/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E8%A7%A3Transformer/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Yuu-Xie.github.io" target="_blank">Yu's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Attention/">Attention</a><a class="post-meta__tags" href="/tags/Transformer/">Transformer</a></div><div class="post-share"><div class="social-share" data-image="/images/hanabi.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/hanabi.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Yu</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Yuu-Xie"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">若您对本站有任何疑问或建议，请随时发送邮件至：<br> <i class="fas fa-envelope"></i>xie.cs@outlook.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">详解Transformer</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.2.</span> <span class="toc-text">背景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RNN"><span class="toc-number">1.2.1.</span> <span class="toc-text">RNN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CNN"><span class="toc-number">1.2.2.</span> <span class="toc-text">CNN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">模型结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Encoder"><span class="toc-number">1.3.1.</span> <span class="toc-text">Encoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decoder"><span class="toc-number">1.3.2.</span> <span class="toc-text">Decoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Multi-Head-Attention"><span class="toc-number">1.3.3.</span> <span class="toc-text">Multi-Head Attention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Positional-Encoding"><span class="toc-number">1.3.4.</span> <span class="toc-text">Positional Encoding</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Layer-Normalization"><span class="toc-number">1.3.5.</span> <span class="toc-text">Layer Normalization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Feed-Forward-Neural-Network"><span class="toc-number">1.3.6.</span> <span class="toc-text">Feed Forward Neural Network</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.4.</span> <span class="toc-text">代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Encoder-2"><span class="toc-number">1.4.1.</span> <span class="toc-text">Encoder</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">1.6.</span> <span class="toc-text">参考文献</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%A6%E8%A7%A3Transformer/" title="详解Transformer">详解Transformer</a><time datetime="2026-03-19T07:42:31.000Z" title="发表于 2026-03-19 15:42:31">2026-03-19</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Yu</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.1.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div></div></body></html>

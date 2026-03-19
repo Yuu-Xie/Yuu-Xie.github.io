@@ -1,0 +1,94 @@
+/* Custom CSS for Figure Numbering */
+/* This CSS will automatically number figures in the post content area. */
+
+/* 在文章内容区域重置计数器 */
+.post-content {
+  counter-reset: figure-counter;
+}
+
+/* 每个 figure 计数器加1 */
+.post-content figure {
+  counter-increment: figure-counter;
+}
+
+/* 在 figcaption 前插入 "图X: " */
+.post-content figcaption::before {
+  content: "图" counter(figure-counter) ":";
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* ----------------------------------------------------------- */
+
+/* 全局色彩与质感覆盖 */
+:root {
+  /* 覆盖 Butterfly 默认变量：字体颜色偏向深墨色，减弱绝对纯黑带来的生硬感 */
+  --font-color: #3b4b4e; 
+  --text-bg-hover: #6b8387;
+  /* 毛玻璃卡片的背景色：带 75% 透明度的霜白色 */
+  --card-bg: rgba(250, 252, 253, 0.75); 
+}
+
+/* 毛玻璃卡片设计 (Glassmorphism) */
+/* 涵盖主页文章卡片、侧边栏、独立页面内容区、顶部导航 */
+#recent-posts > .recent-post-item,
+#aside-content .card-widget,
+.layout > div:first-child:not(.recent-posts),
+#page-header.nav-fixed #nav {
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 4px 24px rgba(65, 85, 93, 0.03) !important;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+#page-header {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+}
+
+#site-title {
+  font-size: 4.5rem !important;
+  color: #d4e9f2 !important; /* 极淡的晴山色 */
+}
+#site-subtitle {
+  font-size: 2.2rem !important;
+  color: #b8d9e5 !important; /* 稍微深一点的青白色 */
+}
+
+/* Hover Effects */
+#recent-posts > .recent-post-item:hover,
+#aside-content .card-widget:hover {
+  box-shadow: 0 8px 32px rgba(65, 85, 93, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px) !important; /* 仅上浮 2px */
+}
+
+#article-container h1, h2, h3, h4, h5, h6, .article-title {
+  color: #2c3638 !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px;
+}
+
+.post-title {
+  color: #b8d9e5 !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px;
+}
+
+#footer {
+  background: rgba(250, 252, 253, 0.4) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  color: #5c7a77 !important;
+}
+
+.footer-copyright,
+.framework-info a {
+  color: #3b4b4e !important;
+}
+
+/* ----------------------------------------------------------- */
