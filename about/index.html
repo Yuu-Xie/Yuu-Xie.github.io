@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>解光宇 — 个人主页</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Variables ── */
+    :root {
+      --pri:    #3730a3;
+      --pri-l:  #4f46e5;
+      --acc:    #7c3aed;
+      --gold:   #b45309;
+      --red:    #dc2626;
+      --bg:     #f7f6f3;
+      --card:   #ffffff;
+      --txt:    #111827;
+      --txt2:   #6b7280;
+      --bdr:    #e5e7eb;
+      --nav-h:  64px;
+      --r:      1rem;
+      --r-lg:   1.25rem;
+      --shadow: 0 1px 3px rgba(0,0,0,.05), 0 8px 32px rgba(55,48,163,.07);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 22px; }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    strong { font-weight: 600; }
+    section, #hero { scroll-margin-top: var(--nav-h); }
+
+    /* ═══ NAV ═══ */
+    #navbar {
+      position: sticky; top: 0; z-index: 200;
+      height: var(--nav-h);
+      background: rgba(247,246,243,.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--bdr);
+      transition: box-shadow .3s;
+    }
+    #navbar.scrolled { box-shadow: 0 2px 16px rgba(0,0,0,.08); }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 1.75rem; height: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--pri); letter-spacing: .06em;
+    }
+    .nav-links { list-style: none; display: flex; gap: 1.5rem; }
+    .nav-links a {
+      font-size: .8rem; font-weight: 500;
+      color: var(--txt2); letter-spacing: .03em;
+      display: flex; align-items: center; gap: .3rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--pri); }
+    .nav-links a i { font-size: .73rem; opacity: .65; }
+    .hamburger {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      color: var(--txt); font-size: 1.2rem; padding: .25rem;
+    }
+
+    /* ═══ HERO ═══ */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 35%, #312e81 70%, #4c1d95 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      pointer-events: none;
+      will-change: transform;
+    }
+    .hero-orb-1 { width: 700px; height: 700px; top: -250px; right: -150px; }
+    .hero-orb-2 { width: 450px; height: 450px; bottom: -150px; left: -80px; }
+    .hero-orb-3 { width: 200px; height: 200px; top: 30%; left: 55%; background: rgba(124,58,237,.15); }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1100px; margin: 0 auto;
+      padding: 100px 1.75rem 80px;
+      display: flex; align-items: center; gap: 3.5rem;
+    }
+    .hero-avatar {
+      flex-shrink: 0;
+      width: 160px; height: 160px; border-radius: 50%;
+      border: 2.5px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-ph { color: rgba(255,255,255,.35); font-size: 3.5rem; }
+    .hero-text { color: #fff; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+      border-radius: 100px; padding: .3rem .9rem;
+      font-size: .75rem; letter-spacing: .08em;
+      margin-bottom: 1.1rem;
+    }
+    .hero-name {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      font-weight: 700; line-height: 1.08;
+      letter-spacing: -.02em; margin-bottom: .6rem;
+    }
+    .hero-title {
+      font-size: 1rem; font-weight: 300;
+      color: rgba(255,255,255,.7); margin-bottom: 1.25rem;
+      letter-spacing: .02em;
+    }
+    .hero-bio {
+      font-size: .9rem; color: rgba(255,255,255,.6);
+      max-width: 480px; line-height: 1.85; margin-bottom: 2rem;
+    }
+    .typing-cursor {
+      display: inline-block;
+      margin-left: .08em;
+      color: rgba(255,255,255,.82);
+      animation: blinkCursor .9s steps(1) infinite;
+    }
+    @keyframes blinkCursor {
+      0%, 45% { opacity: 1; }
+      46%, 100% { opacity: 0; }
+    }
+    .hero-contacts { display: flex; flex-wrap: wrap; gap: .85rem; }
+    .hero-contact {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-size: .82rem; color: rgba(255,255,255,.8);
+      transition: color .2s;
+    }
+    .hero-contact:hover { color: #fff; }
+    .hero-contact i { opacity: .65; font-size: .8rem; }
+
+    /* ═══ SHARED SECTION CHROME ═══ */
+    .sec { padding: 5rem 0; }
+    .sec-alt { background: var(--card); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.75rem; }
+    .sec-head { margin-bottom: 2.75rem; }
+    .sec-eye {
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--pri-l); margin-bottom: .4rem;
+      display: flex; align-items: center; gap: .45rem;
+    }
+    .sec-eye::before {
+      content: ''; display: block;
+      width: 18px; height: 2px;
+      background: var(--pri-l); border-radius: 2px;
+    }
+    .sec-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700; color: var(--txt); line-height: 1.2;
+    }
+    .sec-rule {
+      width: 2.5rem; height: 3px;
+      background: linear-gradient(90deg, var(--pri), var(--acc));
+      border-radius: 2px; margin-top: .85rem;
+    }
+
+    /* ═══ FADE-IN ═══ */
+    .fi { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+    .fi.vis { opacity: 1; transform: none; }
+    .fi-d1 { transition-delay: .1s; }
+    .fi-d2 { transition-delay: .2s; }
+
+    /* ═══ EDUCATION ═══ */
+    .edu-card {
+      background: var(--card); border-radius: var(--r-lg);
+      padding: 2.25rem 2.5rem;
+      border: 1px solid var(--bdr); box-shadow: var(--shadow);
+    }
+    .edu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+    .edu-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: .8rem 1.25rem;
+      align-items: end;
+      margin-bottom: .15rem;
+    }
+    .edu-school-row {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      flex-wrap: wrap;
+    }
+    .edu-school {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.7rem; font-weight: 700; color: var(--txt);
+    }
+    .edu-degree {
+      display: inline-flex;
+      align-items: center;
+      padding: .28rem .8rem;
+      border-radius: 999px;
+      background: rgba(79,70,229,.08);
+      border: 1px solid rgba(79,70,229,.14);
+      color: var(--pri);
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .edu-subline {
+      font-size: .96rem;
+      color: var(--txt2);
+      line-height: 1.7;
+    }
+    .edu-period {
+      justify-self: end;
+      align-self: end;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--pri-l);
+      white-space: nowrap;
+    }
+    .edu-bottom {
+      display: grid;
+      grid-template-columns: minmax(260px, .82fr) minmax(0, 1.18fr);
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    .edu-stats {
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+      height: 100%;
+    }
+    .stat {
+      padding: 1.2rem 1.15rem 1.05rem;
+      background: linear-gradient(180deg, rgba(79,70,229,.05), rgba(79,70,229,.025));
+      border: 1px solid rgba(79,70,229,.12);
+      border-radius: var(--r);
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      flex: 1 1 0;
+    }
+    .stat-k {
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--pri-l);
+      font-weight: 700;
+      margin-bottom: .7rem;
+    }
+    .stat-v {
+      display: block;
+      font-size: clamp(2.15rem, 3.6vw, 3rem);
+      font-weight: 800;
+      color: var(--txt);
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+    .stat-l {
+      font-size: .84rem;
+      color: var(--txt2);
+      margin-bottom: .85rem;
+    }
+    .stat-bar {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(79,70,229,.1);
+      overflow: hidden;
+      position: relative;
+      margin-top: auto;
+    }
+    .stat-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pri), var(--acc));
+    }
+    .courses-panel {
+      padding: 1.15rem 1.15rem 1rem;
+      background: #fcfcff;
+      border: 1px solid rgba(79,70,229,.1);
+      border-radius: var(--r);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .courses-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: .75rem;
+      margin-bottom: .95rem;
+      flex-wrap: wrap;
+    }
+    .courses-label {
+      font-size: .98rem;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 0;
+    }
+    .courses {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .7rem;
+      max-height: 19.5rem;
+      overflow-y: auto;
+      padding-right: .3rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(79,70,229,.28) rgba(79,70,229,.08);
+    }
+    .courses::-webkit-scrollbar { width: 8px; }
+    .courses::-webkit-scrollbar-track {
+      background: rgba(79,70,229,.08);
+      border-radius: 999px;
+    }
+    .courses::-webkit-scrollbar-thumb {
+      background: rgba(79,70,229,.28);
+      border-radius: 999px;
+    }
+    .course {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: .8rem;
+      padding: .85rem 1rem;
+      background: var(--bg);
+      border: 1px solid rgba(79,70,229,.1);
+      border-radius: .85rem;
+      font-size: .86rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+    .course:hover {
+      border-color: rgba(79,70,229,.28);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(79,70,229,.08);
+    }
+    .course-name {
+      font-weight: 600;
+      color: var(--txt);
+      line-height: 1.5;
+    }
+    .course-s {
+      min-width: 3rem;
+      height: 3rem;
+      border-radius: .9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(79,70,229,.09);
+      color: var(--pri);
+      font-weight: 800;
+      font-size: 1.02rem;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    /* ═══ SCHOLARSHIPS ═══ */
+    .schol-card {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow);
+      padding: 2.25rem 2.5rem;
+    }
+    /* Header tabs */
+    .schol-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 2.5rem;
+      border-bottom: 2px solid var(--bdr);
+    }
+    .schol-tab {
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .9rem 1rem;
+      cursor: pointer; font-size: .9rem; font-weight: 500;
+      color: var(--txt2);
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      border-radius: 0;
+      transition: all .2s;
+      text-align: center;
+    }
+    .schol-tab:hover { background: rgba(79,70,229,.04); color: var(--txt); }
+    .schol-tab.active {
+      color: var(--pri);
+      border-bottom-color: var(--pri);
+      font-weight: 600;
+    }
+    .schol-ico {
+      font-size: .85rem; flex-shrink: 0;
+    }
+    /* Display area - image carousel */
+    .schol-viewer {
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .schol-carousel-btn {
+      flex-shrink: 0; background: rgba(79,70,229,.08);
+      border: 1px solid rgba(79,70,229,.2); color: var(--pri);
+      width: 44px; height: 44px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; transition: all .2s;
+    }
+    .schol-carousel-btn:hover {
+      background: rgba(79,70,229,.15);
+      border-color: rgba(79,70,229,.35);
+    }
+    .schol-carousel-btn:disabled {
+      opacity: .3; cursor: not-allowed;
+    }
+    .schol-carousel-container {
+      flex: 1; min-width: 0;
+      display: flex; flex-direction: column;
+    }
+    .schol-carousel-track {
+      position: relative;
+      width: 100%;
+      aspect-ratio:  4 / 3;
+      border-radius: var(--r-lg);
+      background: #fff;
+      border: 1px solid var(--bdr);
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+    .schol-img-item {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateX(10px) scale(.992);
+      transition: opacity .38s cubic-bezier(.4,0,.2,1), transform .38s cubic-bezier(.4,0,.2,1), visibility .38s;
+    }
+    .schol-img-item.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+    }
+    .schol-img-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .schol-img-ph { color: rgba(180,83,9,.3); text-align: center; padding: 1rem; }
+    .schol-img-ph i { font-size: 2.25rem; display: block; margin-bottom: .5rem; }
+    /* Dots */
+    .schol-carousel-dots {
+      display: flex; gap: .4rem; justify-content: center;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(79,70,229,.2); cursor: pointer; transition: all .2s; }
+    .dot.active { background: var(--pri); width: 24px; border-radius: 4px; }
+    /* Title and desc */
+    .schol-img-info { text-align: center; }
+    .schol-img-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--txt);
+      margin-bottom: .25rem;
+    }
+    .schol-img-desc { font-size: .85rem; color: var(--txt2); }
+
+    /* Show first panel by default — handled by JS */
+
+    /* ═══ LANGUAGE ═══ */
+    #language {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .lang-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 380px;
+    }
+    .lang-nav {
+      background: var(--bg);
+      border-right: 1px solid var(--bdr);
+      padding: 1.75rem 0 2rem;
+      display: flex; flex-direction: column; gap: .25rem;
+    }
+    .lang-group-lbl {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .6rem 1.4rem;
+      font-size: .78rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--txt2);
+    }
+    .lang-flag {
+      width: 26px; height: 26px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; flex-shrink: 0;
+    }
+    .lang-flag.en { background: rgba(79,70,229,.1); color: var(--pri); }
+    .lang-flag.ja { background: rgba(220,38,38,.1); color: var(--red); }
+    .lang-sub-list { padding: 0 .75rem 0 0; }
+    .lang-tab {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .58rem 1.25rem .58rem 2.8rem;
+      margin-right: .5rem;
+      border-radius: 0 100px 100px 0;
+      cursor: pointer; font-size: .88rem;
+      transition: background .18s, color .18s;
+      color: var(--txt2); position: relative;
+    }
+    .lang-tab:hover { background: rgba(79,70,229,.06); color: var(--txt); }
+    .lang-tab.active { background: rgba(79,70,229,.1); color: var(--pri); font-weight: 600; }
+    .lang-tab.active::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; border-radius: 0 3px 3px 0; background: var(--pri);
+    }
+    .lang-tab.ja-tab.active { background: rgba(220,38,38,.08); color: var(--red); }
+    .lang-tab.ja-tab.active::before { background: var(--red); }
+    .lang-tab.ja-tab:hover { background: rgba(220,38,38,.05); }
+    .lang-score { font-weight: 700; font-size: .95rem; font-variant-numeric: tabular-nums; }
+    .lang-tab:not(.active) .lang-score { color: var(--txt2); opacity: .7; }
+    .lang-tab.active .lang-score { color: var(--pri); }
+    .lang-tab.ja-tab.active .lang-score { color: var(--red); }
+    .lang-display {
+      padding: 2.5rem 3rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .cert-panel { display: none; text-align: center; animation: fadeUp .32s ease; }
+    .cert-panel.active { display: block; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: none; }
+    }
+    /* Dynamic cert image — adapts to portrait or landscape */
+    .cert-img-wrap {
+      /* No fixed aspect-ratio: wrapper grows to fit the image */
+      width: 100%; max-width: 420px;
+      min-height: 180px; /* keeps placeholder visible */
+      margin: 0 auto 1.75rem;
+      border-radius: var(--r);
+      overflow: hidden; box-shadow: 0 6px 28px rgba(0,0,0,.13);
+      background: linear-gradient(135deg, #e0e7ff, #ede9fe);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cert-img-wrap.ja-wrap { background: linear-gradient(135deg, #fee2e2, #fecaca); }
+    .cert-img-wrap img {
+      display: block;
+      /* Both max constraints active simultaneously: smaller scale wins */
+      max-width: 100%;
+      max-height: 520px;
+      width: auto; height: auto;
+    }
+    .cert-ph { color: rgba(79,70,229,.35); text-align: center; padding: 2rem; min-width: 180px; }
+    .cert-ph.ja-ph { color: rgba(220,38,38,.35); }
+    .cert-ph i { font-size: 2.5rem; display: block; margin-bottom: .6rem; }
+    .cert-ph p { font-size: .8rem; }
+    .cert-ph small { font-size: .7rem; opacity: .6; }
+    .cert-name {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--txt); margin-bottom: .3rem;
+    }
+    .cert-sub { font-size: .82rem; color: var(--txt2); margin-bottom: 1.25rem; }
+    .cert-score-row { display: inline-flex; align-items: baseline; gap: .3rem; }
+    .cert-score-big {
+      font-size: 3.75rem; font-weight: 800; line-height: 1;
+      color: var(--pri); font-variant-numeric: tabular-nums;
+    }
+    .ja-color { color: var(--red); }
+    .cert-score-of { font-size: 1rem; color: var(--txt2); }
+    .cert-score-lbl { font-size: .75rem; color: var(--txt2); margin-top: .3rem; }
+
+    /* ═══ COMPETITIONS ═══ */
+    .comp-list { display: flex; flex-direction: column; gap: .75rem; }
+    .comp-wrapper { border-radius: var(--r); }
+    .comp-item {
+      background: var(--card); border-radius: var(--r);
+      border: 1px solid var(--bdr); box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      padding: 1.1rem 1.4rem;
+      display: flex; align-items: center; gap: 1.1rem;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s, transform .15s;
+      user-select: none;
+    }
+    .comp-item:hover {
+      border-color: rgba(79,70,229,.22);
+      box-shadow: 0 4px 18px rgba(79,70,229,.09);
+      transform: translateY(-1px);
+    }
+    .comp-wrapper.open > .comp-item {
+      border-radius: var(--r) var(--r) 0 0;
+      border-bottom-color: rgba(79,70,229,.12);
+      transform: none;
+      box-shadow: none;
+    }
+    .rank-icon {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .ri-gold   { background: linear-gradient(135deg,#fef3c7,#fde68a); color: #92400e; }
+    .ri-silver { background: linear-gradient(135deg,#f1f5f9,#e2e8f0); color: #475569; }
+    .ri-bronze { background: linear-gradient(135deg,#fff7ed,#fed7aa); color: #9a3412; }
+    .ri-prov   { background: linear-gradient(135deg,#f0fdf4,#dcfce7); color: #166534; }
+    .comp-body { flex: 1; min-width: 0; }
+    .comp-title { font-size: .9rem; font-weight: 400; line-height: 1.45; margin-bottom: .25rem; }
+    .comp-year  { font-size: .76rem; color: var(--txt2); }
+    .level-badge {
+      flex-shrink: 0; padding: .28rem .75rem;
+      border-radius: 100px; font-size: .72rem; font-weight: 600;
+      white-space: nowrap;
+    }
+    .lv-nat { background: rgba(79,70,229,.08); color: var(--pri); border: 1px solid rgba(79,70,229,.18); }
+    .lv-prov{ background: rgba(5,150,105,.08); color: #065f46; border: 1px solid rgba(5,150,105,.18); }
+    /* Chevron */
+    .comp-chevron {
+      flex-shrink: 0; color: var(--txt2); font-size: .78rem;
+      margin-left: .35rem;
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .comp-wrapper.open .comp-chevron { transform: rotate(180deg); }
+    /* Cert dropdown */
+    .comp-cert {
+      max-height: 0; overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--bdr); border-top: none;
+      border-radius: 0 0 var(--r) var(--r);
+      transition: max-height .5s cubic-bezier(.4,0,.2,1);
+    }
+    .comp-cert.open { max-height: 460px; }
+    .comp-cert-inner {
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: 1.5rem;
+    }
+    .comp-cert img {
+      max-height: 380px; max-width: 100%;
+      object-fit: contain; border-radius: .6rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+    }
+    .comp-cert-ph {
+      text-align: center; color: var(--txt2);
+      font-size: .8rem; padding: 1rem 0;
+    }
+    .comp-cert-ph i { font-size: 1.85rem; display: block; margin-bottom: .5rem; opacity: .35; }
+
+    /* ═══ RESEARCH ═══ */
+    .timeline { position: relative; padding-left: 1.75rem; }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 0; top: .5rem; bottom: .5rem;
+      width: 2px;
+      background: linear-gradient(180deg, var(--pri), var(--acc));
+      border-radius: 2px;
+    }
+    .tl-item { position: relative; margin-bottom: 2rem; }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-item::before {
+      content: ''; position: absolute;
+      left: -1.75rem; top: .65rem;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--pri);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--pri);
+    }
+    .research-card {
+      background: var(--card);
+      border-radius: var(--r); padding: 1.6rem 1.75rem;
+      border: 1px solid var(--bdr); box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .research-card:hover {
+      border-color: rgba(79,70,229,.2);
+      box-shadow: 0 4px 20px rgba(79,70,229,.08);
+    }
+    .rcard-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: .5rem;
+      margin-bottom: .75rem;
+    }
+    .rcard-lab { font-weight: 600; font-size: .92rem; }
+    .rcard-period {
+      font-size: .76rem; color: var(--txt2);
+      background: var(--bg); border: 1px solid var(--bdr);
+      border-radius: 100px; padding: .22rem .7rem; white-space: nowrap;
+    }
+    .rcard-body { font-size: .86rem; color: var(--txt2); line-height: 1.85; }
+    .rcard-body strong { color: var(--txt); }
+    .tag-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .9rem; }
+    .r-tag {
+      padding: .28rem .75rem; font-size: .76rem;
+      background: var(--bg); border: 1px solid var(--bdr);
+      border-radius: 100px; color: var(--txt2); transition: all .18s;
+    }
+    .r-tag:hover { background: rgba(79,70,229,.07); border-color: rgba(79,70,229,.2); color: var(--pri); }
+
+    /* ═══ INTERNATIONAL EXCHANGE (standalone section) ═══ */
+    .intl-card {
+      background: var(--card);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--bdr);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .intl-banner {
+      background: linear-gradient(135deg, #0f0c29 0%, #1e1b4b 40%, #312e81 70%, #4c1d95 100%);
+      color: #fff; padding: 2rem 2.5rem;
+      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+    }
+    .intl-banner-ico {
+      width: 64px; height: 64px; border-radius: .85rem; flex-shrink: 0;
+      background: rgba(255,255,255,.14);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem;
+    }
+    .intl-banner-text { flex: 1; min-width: 180px; }
+    .intl-univ {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.4rem; font-weight: 700; margin-bottom: .35rem;
+    }
+    .intl-prog { font-size: .9rem; color: rgba(255,255,255,.8); margin-bottom: .2rem; }
+    .intl-prog-en { font-size: .76rem; color: rgba(255,255,255,.5); }
+    .intl-banner-meta { text-align: right; flex-shrink: 0; }
+    .intl-banner-meta .meta-lbl { font-size: .7rem; color: rgba(255,255,255,.45); margin-bottom: .15rem; }
+    .intl-banner-meta .meta-val { font-size: .9rem; color: rgba(255,255,255,.85); font-weight: 500; }
+    .intl-body {
+      padding: 1.75rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: stretch;
+    }
+    .intl-desc {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .intl-desc > p { font-size: .88rem; color: var(--txt2); line-height: 1.85; margin-bottom: .9rem; }
+    /* BrainNexus project card */
+    .intl-project {
+      background: rgba(79,70,229,.04); border: 1px solid rgba(79,70,229,.12);
+      border-radius: var(--r); padding: 1rem 1.2rem; margin-bottom: 0;
+    }
+    .intl-project-head {
+      display: flex; align-items: center; gap: .45rem;
+      font-weight: 700; font-size: .9rem; color: var(--txt); margin-bottom: .5rem;
+    }
+    .intl-project-head i { color: var(--pri-l); }
+    .intl-project-desc { font-size: .82rem; color: var(--txt2); line-height: 1.8; margin-bottom: .7rem; }
+    .intl-demo-card {
+      background: rgba(79,70,229,.03);
+      border: 1px solid rgba(79,70,229,.12);
+      border-radius: var(--r);
+      padding: 1.2rem;
+    }
+    .intl-demo-head {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: .8rem;
+    }
+    .intl-demo-head i { color: var(--pri-l); }
+    .intl-demo-viewer {
+      display: grid;
+      grid-template-columns: 44px 1fr 44px;
+      align-items: center;
+      gap: .8rem;
+    }
+    .intl-demo-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(79,70,229,.2);
+      background: rgba(255,255,255,.9);
+      color: var(--pri);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .intl-demo-btn:hover {
+      background: rgba(79,70,229,.08);
+      transform: translateY(-1px);
+    }
+    .intl-demo-track {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(79,70,229,.14);
+      background: linear-gradient(135deg, #eef2ff, #f8fafc);
+      box-shadow: 0 10px 30px rgba(79,70,229,.1);
+    }
+    .intl-demo-item {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateX(10px) scale(.992);
+      transition: opacity .38s cubic-bezier(.4,0,.2,1), transform .38s cubic-bezier(.4,0,.2,1), visibility .38s;
+    }
+    .intl-demo-item.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+    }
+    .intl-demo-item img { width: 100%; height: 100%; object-fit: contain; }
+    .intl-demo-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      margin-top: .75rem;
+    }
+    .intl-demo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      border: none;
+      background: rgba(148,163,184,.45);
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .intl-demo-dot.active {
+      width: 22px;
+      background: var(--pri);
+    }
+    .intl-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .8rem;
+    }
+    .intl-metric {
+      background: linear-gradient(135deg, rgba(79,70,229,.06), rgba(124,58,237,.04));
+      border: 1px solid rgba(79,70,229,.12);
+      border-radius: .95rem;
+      padding: .95rem 1rem;
+      min-height: 112px;
+    }
+    .intl-metric-k {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--pri-l);
+      font-weight: 700;
+      margin-bottom: .55rem;
+    }
+    .intl-metric-v {
+      font-size: 1.45rem;
+      line-height: 1.15;
+      font-weight: 800;
+      color: var(--txt);
+      margin-bottom: .25rem;
+    }
+    .intl-metric-l {
+      font-size: .8rem;
+      color: var(--txt2);
+      line-height: 1.7;
+    }
+    .intl-visual {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      border-radius: 1.1rem;
+      padding: 1.35rem;
+      background: radial-gradient(circle at top left, rgba(124,58,237,.18), transparent 45%), linear-gradient(145deg, #eef2ff, #f8fafc 55%, #eef2ff);
+      border: 1px solid rgba(79,70,229,.12);
+    }
+    .intl-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+    }
+    .intl-orb-1 {
+      width: 180px;
+      height: 180px;
+      right: -45px;
+      top: -35px;
+      background: rgba(79,70,229,.16);
+    }
+    .intl-orb-2 {
+      width: 120px;
+      height: 120px;
+      left: -28px;
+      bottom: -32px;
+      background: rgba(236,72,153,.11);
+    }
+    .intl-orb-3 {
+      width: 74px;
+      height: 74px;
+      right: 20%;
+      bottom: 22%;
+      background: rgba(59,130,246,.12);
+    }
+    .intl-visual-card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 290px);
+      min-height: 170px;
+      margin-left: auto;
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.6);
+      box-shadow: 0 18px 40px rgba(79,70,229,.14);
+      border-radius: 1rem;
+      padding: 1.05rem 1.1rem;
+    }
+    .intl-visual-k {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--pri-l);
+      font-weight: 700;
+      margin-bottom: .65rem;
+    }
+    .intl-visual-v {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: .45rem;
+    }
+    .intl-visual-l {
+      font-size: .82rem;
+      color: var(--txt2);
+      line-height: 1.8;
+    }
+    .intl-certs {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+    .intl-cert-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-bottom: 2px solid var(--bdr);
+    }
+    .intl-cert-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      padding: .95rem 1rem;
+      font-size: .9rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--txt2);
+      transition: all .2s;
+    }
+    .intl-cert-btn:hover { background: rgba(79,70,229,.04); color: var(--txt); }
+    .intl-cert-btn.active {
+      background: transparent;
+      color: var(--pri);
+      border-bottom-color: var(--pri);
+      font-weight: 600;
+    }
+    .intl-cert-item { display: none; }
+    .intl-cert-item.active { display: flex; }
+    .intl-cert-wrap {
+      width: 100%;
+      height: 1000px;
+      border-radius: 1.15rem;
+      background: linear-gradient(135deg, #e0e7ff, #ede9fe);
+      border: 1px solid rgba(79,70,229,.15);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 12px 36px rgba(79,70,229,.12);
+    }
+    .intl-cert-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .intl-cert-label { font-size: .72rem; color: var(--txt2); font-weight: 500; }
+    .intl-cert-ph { text-align: center; color: rgba(79,70,229,.35); font-size: .72rem; padding: .75rem .5rem; }
+    .intl-cert-ph i { font-size: 1.6rem; display: block; margin-bottom: .35rem; }
+
+    /* ═══ PROJECTS ═══ */
+    .project-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
+      transition: all .25s ease;
+    }
+    .project-card.open {
+      border-color: rgba(79,70,229,.24);
+      box-shadow: 0 14px 32px rgba(79,70,229,.12);
+    }
+    .project-preview {
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 1.2rem 1.35rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .9rem;
+    }
+    .project-preview:hover { background: rgba(79,70,229,.03); }
+    .project-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: .7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+      background: rgba(79,70,229,.1);
+      color: var(--pri);
+    }
+    .project-main { flex: 1; min-width: 0; }
+    .project-title {
+      font-size: .98rem;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: .35rem;
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      flex-wrap: wrap;
+    }
+    .project-preview-txt {
+      font-size: .84rem;
+      line-height: 1.78;
+      color: var(--txt2);
+      margin-bottom: .7rem;
+    }
+    .repo-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+    .repo-badge-slot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 118px;
+      height: 28px;
+      padding: 0 .65rem;
+      border-radius: 999px;
+      border: 1px dashed rgba(79,70,229,.3);
+      background: rgba(79,70,229,.04);
+      color: var(--pri);
+      font-size: .73rem;
+      font-weight: 600;
+      letter-spacing: .01em;
+    }
+    .project-chevron {
+      color: var(--txt2);
+      transition: transform .25s ease;
+      margin-top: .35rem;
+      font-size: .95rem;
+    }
+    .project-card.open .project-chevron { transform: rotate(180deg); }
+    .project-detail {
+      display: none;
+      border-top: 1px solid var(--bdr);
+      padding: 1.15rem 1.35rem 1.25rem;
+      background: linear-gradient(180deg, rgba(79,70,229,.02), rgba(79,70,229,.01));
+    }
+    .project-card.open .project-detail { display: block; }
+    .project-media {
+      width: 100%;
+      border-radius: .95rem;
+      overflow: hidden;
+      border: 1px solid rgba(79,70,229,.14);
+      background: linear-gradient(135deg, #eef2ff, #f8fafc);
+      margin-bottom: .95rem;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-media img { width: 100%; height: 100%; object-fit: contain; }
+    .project-detail-txt {
+      font-size: .84rem;
+      color: var(--txt2);
+      line-height: 1.85;
+    }
+
+    /* ═══ FOOTER ═══ */
+    footer {
+      background: #111827; color: rgba(255,255,255,.5);
+      text-align: center; padding: 2rem 1.75rem;
+      font-size: .82rem;
+    }
+    footer a { color: rgba(255,255,255,.7); transition: color .2s; }
+    footer a:hover { color: #fff; }
+    footer .sub { font-size: .72rem; margin-top: .3rem; opacity: .45; }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 860px) {
+      .lang-layout { grid-template-columns: 1fr; min-height: unset; }
+      .lang-nav { border-right: none; border-bottom: 1px solid var(--bdr); padding: 1.25rem 0 1rem; }
+      .lang-sub-list { display: flex; flex-direction: column; gap: .25rem; padding: 0 .75rem 0 0; }
+      .lang-tab {
+        width: 100%;
+        justify-content: space-between;
+        border-radius: 0 100px 100px 0;
+        padding: .58rem 1.25rem .58rem 2.8rem;
+        margin: 0 .5rem 0 0;
+        font-size: .88rem;
+        border: none;
+      }
+      .lang-score {
+        margin-left: auto;
+        min-width: 4.5rem;
+        text-align: right;
+      }
+      .lang-group-lbl { padding: .5rem 1rem; }
+      .lang-display { padding: 2rem 1.5rem; }
+      .cert-img-wrap { max-width: 100%; }
+      .intl-body { padding: 1.5rem; }
+      .intl-banner { padding: 1.5rem; }
+      .intl-banner-meta { display: none; }
+      .intl-body {
+        gap: 1.5rem;
+      }
+      .intl-demo-viewer { grid-template-columns: 1fr; }
+      .intl-demo-btn { display: none; }
+      .intl-demo-track { aspect-ratio: 4 / 3; }
+      .intl-cert-wrap { height: 520px; }
+    }
+    @media (max-width: 640px) {
+      .hero-inner { flex-direction: column; text-align: center; padding-top: 100px; }
+      .hero-contacts { justify-content: center; }
+      .hero-bio { margin: 0 auto 2rem; }
+      .hero-eyebrow { margin-left: auto; margin-right: auto; }
+      .nav-links {
+        display: none; flex-direction: column; gap: 0;
+        position: fixed; top: var(--nav-h); left: 0; right: 0;
+        background: rgba(247,246,243,.98); backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--bdr);
+        padding: .5rem 0 1rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: .75rem 1.75rem; font-size: .95rem; border-bottom: 1px solid var(--bdr); }
+      .hamburger { display: block; }
+      .edu-card { padding: 1.5rem; }
+      .edu-top {
+        grid-template-columns: 1fr;
+        gap: .55rem;
+      }
+      .edu-school { font-size: 1.45rem; }
+      .edu-subline { font-size: .9rem; }
+      .edu-period { justify-self: start; }
+      .edu-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .edu-stats {
+        height: auto;
+        width: 100%;
+      }
+      .stat {
+        flex: none;
+        width: 100%;
+        min-height: 132px;
+      }
+      .stat-v { font-size: 2.3rem; }
+      .courses-panel {
+        order: 2;
+        width: 100%;
+        min-height: auto;
+      }
+      .courses {
+        max-height: 14rem;
+        padding-right: .15rem;
+      }
+      .lang-nav { padding-bottom: 1rem; }
+      .lang-sub-list { padding-right: .5rem; }
+      .lang-tab {
+        width: 100%;
+        padding: .6rem 1rem .6rem 2.2rem;
+        margin-right: .35rem;
+        font-size: .84rem;
+      }
+      .lang-score {
+        min-width: 4rem;
+        font-size: .9rem;
+      }
+      .intl-metrics { grid-template-columns: 1fr; }
+      .project-preview { padding: 1rem; }
+      .project-detail { padding: 1rem; }
+      .project-media { aspect-ratio: 4 / 3; }
+      .intl-visual { min-height: 180px; padding: 1rem; }
+      .intl-visual-card {
+        width: 100%;
+        margin-left: 0;
+      }
+      .intl-cert-tabs { grid-template-columns: 1fr 1fr; }
+      .intl-cert-btn { padding: .8rem .5rem; font-size: .82rem; }
+      .intl-demo-track { aspect-ratio: 1 / 1; }
+      .intl-cert-wrap { height: 400px; }
+      .intl-demo-btn { display: none; }
+      .sec { padding: 3.5rem 0; }
+      .schol-tabs { flex-wrap: wrap; gap: .6rem; }
+      .schol-viewer { gap: 1rem; flex-direction: column; }
+      .schol-carousel-btn { width: 40px; height: 40px; }
+      .schol-carousel-container { width: 100%; }
+      .schol-carousel-track { aspect-ratio: 2/3; }
+      .schol-card { padding: 1.5rem; }
+      .schol-tabs { gap: .4rem; }
+      .schol-tab { padding: .4rem .8rem; font-size: .78rem; }
+      .schol-viewer { gap: .75rem; }
+      .schol-carousel-btn { width: 36px; height: 36px; font-size: .8rem; }
+      .schol-carousel-btn { display: none; }
+      .schol-carousel-track { aspect-ratio: 3/4; margin-bottom: 1rem; }
+      .schol-carousel-dots { gap: .25rem; }
+      .dot { width: 6px; height: 6px; }
+      .dot.active { width: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">解光宇 · CS</div><!-- TODO: Replace with your full name -->
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#education"><i class="fa-solid fa-graduation-cap"></i>教育背景</a></li>
+      <li><a href="#scholarships"><i class="fa-solid fa-medal"></i>奖学金</a></li>
+      <li><a href="#language-sec"><i class="fa-solid fa-language"></i>语言能力</a></li>
+      <li><a href="#competitions"><i class="fa-solid fa-trophy"></i>竞赛奖项</a></li>
+      <li><a href="#research"><i class="fa-solid fa-flask"></i>科研经历</a></li>
+      <li><a href="#projects"><i class="fa-solid fa-code"></i>项目实践</a></li>
+      <li><a href="#international"><i class="fa-solid fa-plane-departure"></i>国际交流</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="菜单">
+      <i class="fa-solid fa-bars" id="hambIcon"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-inner">
+    <div class="hero-avatar">
+      <span class="avatar-ph">
+        <i class="fa-regular fa-user">
+          <img src="images/avatar.jpg" alt="头像">
+        </i>
+      </span>
+    </div>
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <i class="fa-solid fa-location-dot"></i>
+        东北大学 &nbsp;·&nbsp; 秦皇岛
+      </div>
+      <h1 class="hero-name">解光宇</h1>
+      <p class="hero-title">计算机科学与技术 &nbsp;·&nbsp; 本科生</p>
+      <p class="hero-bio">
+        专注于NLP与LLM应用，热衷竞技编程与实践创新。<br>
+        曾获2024年度本专科生国家奖学金。<br>
+        善于沟通协作，具备英日双语学术文献阅读能力。
+      </p>
+      <div class="hero-contacts">
+        <a href="tel:19719851292" class="hero-contact">
+          <i class="fa-solid fa-phone"></i>19719851292
+        </a>
+        <a href="mailto:xie.cs@outlook.com" class="hero-contact">
+          <i class="fa-regular fa-envelope"></i>xie.cs@outlook.com
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<!-- ═══ EDUCATION ═══ -->
+<section id="education" class="sec">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Education</div>
+      <h2 class="sec-title">教育背景</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="edu-card fi fi-d1">
+      <div class="edu-grid">
+        <div class="edu-left">
+          <div class="edu-top">
+            <div>
+              <div class="edu-school-row">
+                <div class="edu-school">
+                  <i class="fa-solid fa-building-columns" style="color:var(--pri);margin-right:.45rem;font-size:.9em;"></i>
+                  东北大学
+                </div>
+                <span class="edu-degree">本科</span>
+              </div>
+              <div class="edu-subline">计算机与通信工程学院 &nbsp;·&nbsp; 计算机科学与技术</div>
+            </div>
+            <div class="edu-period">2023.09 — 2027.07</div>
+          </div>
+          <div class="edu-bottom">
+            <div class="edu-stats">
+              <div class="stat">
+                <span class="stat-k">GPA</span>
+                <span class="stat-v">90.445</span>
+                <span class="stat-l">4.0445 / 5.0</span>
+                <div class="stat-bar"><div class="stat-fill" style="width:80.8%;"></div></div>
+              </div>
+              <div class="stat">
+                <span class="stat-k">Percentile Rank</span>
+                <span class="stat-v">92.35%</span>
+                <span class="stat-l">15 / 196</span>
+                <div class="stat-bar"><div class="stat-fill" style="width:92.35%;"></div></div>
+              </div>
+            </div>
+            <div class="courses-panel">
+              <div class="courses-head">
+                <div class="courses-label"><i class="fa-solid fa-book" style="margin-right:.42rem;opacity:.65;"></i>课程表现</div>
+              </div>
+              <div class="courses">
+                <div class="course"><span class="course-name">概率论与数理统计</span><span class="course-s">99</span></div>
+                <div class="course"><span class="course-name">软件工程</span><span class="course-s">99</span></div>
+                <div class="course"><span class="course-name">线性代数</span><span class="course-s">97</span></div>
+                <div class="course"><span class="course-name">高等数学</span><span class="course-s">97</span></div>
+                <div class="course"><span class="course-name">C++ 程序设计</span><span class="course-s">97</span></div>
+                <div class="course"><span class="course-name">算法设计与分析</span><span class="course-s">97</span></div>
+                <div class="course"><span class="course-name">汇编语言程序设计</span><span class="course-s">95</span></div>
+                <div class="course"><span class="course-name">数据结构</span><span class="course-s">93</span></div>
+                <div class="course"><span class="course-name">数据库原理</span><span class="course-s">93</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCHOLARSHIPS ═══ -->
+<section id="scholarships" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Honors</div>
+      <h2 class="sec-title">奖学金荣誉</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="schol-card fi fi-d1">
+      <!-- Header tabs -->
+      <div class="schol-tabs">
+        <div class="schol-tab active" id="stab-national" onclick="switchSchol('national')">
+          <span class="schol-ico"><i class="fa-solid fa-medal"></i></span>
+          <span>国家奖学金</span>
+        </div>
+        <div class="schol-tab" id="stab-school" onclick="switchSchol('school')">
+          <span class="schol-ico"><i class="fa-solid fa-trophy"></i></span>
+          <span>校综合奖学金</span>
+        </div>
+        <div class="schol-tab" id="stab-innovation" onclick="switchSchol('innovation')">
+          <span class="schol-ico"><i class="fa-solid fa-lightbulb"></i></span>
+          <span>创新创业奖学金</span>
+        </div>
+      </div>
+
+      <!-- Content area -->
+      <div style="display: none;" id="spanel-national" class="schol-panel-content">
+        <div class="schol-viewer">
+          <button class="schol-carousel-btn prev" onclick="prevSchol('national')">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="schol-carousel-container">
+            <div class="schol-carousel-track">
+              <div class="schol-img-item active" id="simg-national-0" data-title="2024年度国家奖学金">
+                <img src="images/schol-national.png" alt="2024年度国家奖学金"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="schol-img-ph" style="display:none;">
+                  <i class="fa-regular fa-image"></i>
+                  <p>证书图片</p><small>images/schol-national.png</small>
+                </div>
+              </div>
+            </div>
+            <div class="schol-carousel-dots" id="sdots-national"></div>
+            <div class="schol-img-info">
+              <div class="schol-img-title">国家奖学金</div>
+            </div>
+          </div>
+          <button class="schol-carousel-btn next" onclick="nextSchol('national')">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="display: none;" id="spanel-school" class="schol-panel-content">
+        <div class="schol-viewer">
+          <button class="schol-carousel-btn prev" onclick="prevSchol('school')">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="schol-carousel-container">
+            <div class="schol-carousel-track">
+              <div class="schol-img-item active" id="simg-school-0" data-title="校二等奖学金（2024）">
+                <img src="images/schol-school-1.png" alt="校综合奖学金-1"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="schol-img-ph" style="display:none;">
+                  <i class="fa-regular fa-image"></i>
+                  <p>证书图片</p><small>images/schol-school-1.png</small>
+                </div>
+              </div>
+              <div class="schol-img-item" id="simg-school-1" data-title="校三等奖学金（2023）">
+                <img src="images/schol-school-2.png" alt="校综合奖学金-2"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="schol-img-ph" style="display:none;">
+                  <i class="fa-regular fa-image"></i>
+                  <p>证书图片</p><small>images/schol-school-2.png</small>
+                </div>
+              </div>
+            </div>
+            <div class="schol-carousel-dots" id="sdots-school">
+              <div class="dot active" onclick="jumpToSchol('school', 0)"></div>
+              <div class="dot" onclick="jumpToSchol('school', 1)"></div>
+            </div>
+            <div class="schol-img-info">
+              <div class="schol-img-title">校综合奖学金</div>
+            </div>
+          </div>
+          <button class="schol-carousel-btn next" onclick="nextSchol('school')">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="display: none;" id="spanel-innovation" class="schol-panel-content">
+        <div class="schol-viewer">
+          <button class="schol-carousel-btn prev" onclick="prevSchol('innovation')">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="schol-carousel-container">
+            <div class="schol-carousel-track">
+              <div class="schol-img-item active" id="simg-innovation-0" data-title="2024年度创新创业奖学金">
+                <img src="images/schol-innovation.png" alt="创新创业奖学金-1"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="schol-img-ph" style="display:none;">
+                  <i class="fa-regular fa-image"></i>
+                  <p>证书图片</p><small>images/schol-innovation.png</small>
+                </div>
+              </div>
+            </div>
+            <div class="schol-carousel-dots" id="sdots-innovation"></div>
+            <div class="schol-img-info">
+              <div class="schol-img-title">创新创业奖学金</div>
+            </div>
+          </div>
+          <button class="schol-carousel-btn next" onclick="nextSchol('innovation')">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="language-sec" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Languages</div>
+      <h2 class="sec-title">语言能力</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div id="language" class="fi fi-d1">
+      <div class="lang-layout">
+
+        <!-- Left nav -->
+        <div class="lang-nav">
+          <div class="lang-group-lbl">
+            <div class="lang-flag en"><i class="fa-solid fa-globe"></i></div>
+            英语 &nbsp;English
+          </div>
+          <div class="lang-sub-list">
+            <div class="lang-tab active" id="tab-cet4" onclick="selectCert('cet4')">
+              <span>CET-4</span><span class="lang-score">591</span>
+            </div>
+            <div class="lang-tab" id="tab-cet6" onclick="selectCert('cet6')">
+              <span>CET-6</span><span class="lang-score">489</span>
+            </div>
+          </div>
+          <div class="lang-group-lbl" style="margin-top:1.25rem;">
+            <div class="lang-flag ja"><i class="fa-solid fa-torii-gate"></i></div>
+            日語 &nbsp;Japanese
+          </div>
+          <div class="lang-sub-list">
+            <div class="lang-tab ja-tab" id="tab-jlpt" onclick="selectCert('jlpt')">
+              <span>JLPT N1</span><span class="lang-score">136</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right display -->
+        <div class="lang-display">
+          <!-- CET-4 -->
+          <div class="cert-panel active" id="panel-cet4">
+            <div class="cert-img-wrap">
+              <img src="images/cet4.png" alt="CET-4 证书"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+              <div class="cert-ph" style="display:none;">
+                <i class="fa-regular fa-id-card"></i>
+                <p>CET-4 证书</p><small>images/cet4.png</small>
+              </div>
+            </div>
+            <div class="cert-name">大学英语四级（CET-4）</div>
+            <div class="cert-sub">College English Test · Band 4</div>
+            <div class="cert-score-row">
+              <span class="cert-score-big">591</span>
+              <span class="cert-score-of">/ 710</span>
+            </div>
+            <div class="cert-score-lbl">总分</div>
+          </div>
+
+          <!-- CET-6 -->
+          <div class="cert-panel" id="panel-cet6">
+            <div class="cert-img-wrap">
+              <img src="images/cet6.png" alt="CET-6 证书"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+              <div class="cert-ph" style="display:none;">
+                <i class="fa-regular fa-id-card"></i>
+                <p>CET-6 证书</p><small>images/cet6.png</small>
+              </div>
+            </div>
+            <div class="cert-name">大学英语六级（CET-6）</div>
+            <div class="cert-sub">College English Test · Band 6</div>
+            <div class="cert-score-row">
+              <span class="cert-score-big">489</span>
+              <span class="cert-score-of">/ 710</span>
+            </div>
+            <div class="cert-score-lbl">总分</div>
+          </div>
+
+          <!-- JLPT N1 -->
+          <div class="cert-panel" id="panel-jlpt">
+            <div class="cert-img-wrap ja-wrap">
+              <img src="images/jlpt-n1.png" alt="JLPT N1 证书"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+              <div class="cert-ph ja-ph" style="display:none;">
+                <i class="fa-regular fa-id-card"></i>
+                <p>JLPT N1 証書</p><small>images/jlpt-n1.png</small>
+              </div>
+            </div>
+            <div class="cert-name">日本語能力試験 N1</div>
+            <div class="cert-sub">Japanese Language Proficiency Test · N1</div>
+            <div class="cert-score-row">
+              <span class="cert-score-big ja-color">136</span>
+              <span class="cert-score-of">/ 180</span>
+            </div>
+            <div class="cert-score-lbl">総合得点</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPETITIONS ═══ -->
+<section id="competitions" class="sec">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Awards</div>
+      <h2 class="sec-title">竞赛奖项</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="comp-list fi fi-d1">
+
+      <!-- 1 -->
+      <div class="comp-wrapper" id="cw-1">
+        <div class="comp-item" onclick="toggleComp('cw-1')">
+          <div class="rank-icon ri-gold"><i class="fa-solid fa-medal"></i></div>
+          <div class="comp-body">
+            <div class="comp-title">睿抗机器人开发者大赛（RAICOM）全国总决赛 CAIP 赛道 <strong>一等奖</strong></div>
+            <div class="comp-year">2025</div>
+          </div>
+          <span class="level-badge lv-nat">国家级</span>
+          <i class="fa-solid fa-chevron-down comp-chevron"></i>
+        </div>
+        <div class="comp-cert" id="cc-1">
+          <div class="comp-cert-inner">
+            <img src="images/comp-raicom-2025.jpg" alt="RAICOM 2025 一等奖证书"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="comp-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>获奖证书图片</p><small>images/comp-raicom-2025.jpg</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="comp-wrapper" id="cw-2">
+        <div class="comp-item" onclick="toggleComp('cw-2')">
+          <div class="rank-icon ri-silver"><i class="fa-solid fa-medal"></i></div>
+          <div class="comp-body">
+            <div class="comp-title">中国高校计算机大赛 — 团体程序设计天梯赛 全国总决赛 个人 <strong>二等奖</strong></div>
+            <div class="comp-year">2025</div>
+          </div>
+          <span class="level-badge lv-nat">国家级</span>
+          <i class="fa-solid fa-chevron-down comp-chevron"></i>
+        </div>
+        <div class="comp-cert" id="cc-2">
+          <div class="comp-cert-inner">
+            <img src="images/comp-ladder-2025.png" alt="天梯赛 2025 二等奖证书"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="comp-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>获奖证书图片</p><small>images/comp-ladder-2025.png</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="comp-wrapper" id="cw-3">
+        <div class="comp-item" onclick="toggleComp('cw-3')">
+          <div class="rank-icon ri-bronze"><i class="fa-solid fa-medal"></i></div>
+          <div class="comp-body">
+            <div class="comp-title">第十六届蓝桥杯全国软件和信息技术专业人才大赛 全国总决赛 C/C++ 大学 A 组 <strong>三等奖</strong></div>
+            <div class="comp-year">2025</div>
+          </div>
+          <span class="level-badge lv-nat">国家级</span>
+          <i class="fa-solid fa-chevron-down comp-chevron"></i>
+        </div>
+        <div class="comp-cert" id="cc-3">
+          <div class="comp-cert-inner">
+            <img src="images/comp-lanqiao-2025.png" alt="蓝桥杯 2025 三等奖证书"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="comp-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>获奖证书图片</p><small>images/comp-lanqiao-2025.png</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="comp-wrapper" id="cw-4">
+        <div class="comp-item" onclick="toggleComp('cw-4')">
+          <div class="rank-icon ri-silver"><i class="fa-solid fa-medal"></i></div>
+          <div class="comp-body">
+            <div class="comp-title">睿抗机器人开发者大赛（RAICOM）全国总决赛 CAIP 赛道 <strong>二等奖</strong></div>
+            <div class="comp-year">2024</div>
+          </div>
+          <span class="level-badge lv-nat">国家级</span>
+          <i class="fa-solid fa-chevron-down comp-chevron"></i>
+        </div>
+        <div class="comp-cert" id="cc-4">
+          <div class="comp-cert-inner">
+            <img src="images/comp-raicom-2024.png" alt="RAICOM 2024 二等奖证书"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="comp-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>获奖证书图片</p><small>images/comp-raicom-2024.png</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="comp-wrapper" id="cw-5">
+        <div class="comp-item" onclick="toggleComp('cw-5')">
+          <div class="rank-icon ri-bronze"><i class="fa-solid fa-medal"></i></div>
+          <div class="comp-body">
+            <div class="comp-title">中国高校计算机大赛 — 团体程序设计天梯赛 全国总决赛 个人 <strong>三等奖</strong></div>
+            <div class="comp-year">2024</div>
+          </div>
+          <span class="level-badge lv-nat">国家级</span>
+          <i class="fa-solid fa-chevron-down comp-chevron"></i>
+        </div>
+        <div class="comp-cert" id="cc-5">
+          <div class="comp-cert-inner">
+            <img src="images/comp-ladder-2024.png" alt="天梯赛 2024 三等奖证书"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="comp-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>获奖证书图片</p><small>images/comp-ladder-2024.png</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="comp-wrapper" id="cw-6">
+        <div class="comp-item" onclick="toggleComp('cw-6')">
+          <div class="rank-icon ri-prov"><i class="fa-solid fa-medal"></i></div>
+          <div class="comp-body">
+            <div class="comp-title">第二十届百度之星程序设计大赛 <strong>省赛银奖</strong></div>
+            <div class="comp-year">2024</div>
+          </div>
+          <span class="level-badge lv-prov">省级</span>
+          <i class="fa-solid fa-chevron-down comp-chevron"></i>
+        </div>
+        <div class="comp-cert" id="cc-6">
+          <div class="comp-cert-inner">
+            <img src="images/comp-baidustar-2024.png" alt="百度之星 2024 银奖证书"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="comp-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>获奖证书图片</p><small>images/comp-baidustar-2024.png</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="comp-wrapper" id="cw-7">
+        <div class="comp-item" onclick="toggleComp('cw-7')">
+          <div class="rank-icon ri-prov"><i class="fa-solid fa-medal"></i></div>
+          <div class="comp-body">
+            <div class="comp-title">第八届河北省大学生程序设计竞赛 <strong>银奖</strong></div>
+            <div class="comp-year">2024</div>
+          </div>
+          <span class="level-badge lv-prov">省级</span>
+          <i class="fa-solid fa-chevron-down comp-chevron"></i>
+        </div>
+        <div class="comp-cert" id="cc-7">
+          <div class="comp-cert-inner">
+            <img src="images/comp-hebei-2024.png" alt="河北省竞赛 2024 银奖证书"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="comp-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>获奖证书图片</p><small>images/comp-hebei-2024.png</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RESEARCH ═══ -->
+<section id="research" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Research</div>
+      <h2 class="sec-title">科研经历</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="timeline fi fi-d1">
+      <div class="tl-item">
+        <div class="research-card">
+          <div class="rcard-top">
+            <div class="rcard-lab">
+              <i class="fa-solid fa-dna" style="color:var(--pri);margin-right:.4rem;"></i>
+              生物信息学与大数据挖掘技术实验室
+            </div>
+            <div class="rcard-period">2024.09 — 2024.12</div>
+          </div>
+          <div class="rcard-body">
+            参与大规模蛋白质序列的无监督聚类算法研究。引入 <strong>TM-Vec</strong> 提取序列的结构感知表征  针对传统聚类算法 O(N²) 计算复杂度过高的问题，构建基于<strong>局部敏感哈希（LSH）</strong>的降维与近似最近邻检索模块，利用海明距离快速过滤无关候选对，将候选集规模缩减至原有的 10% 以内；结合 Linclust 线性时间复杂度思想优化底层检索逻辑，将整体算法复杂度由 O(N²) 降低至接近 O(N)，大幅削减高维张量比对的计算开销。
+          </div>
+          <div class="tag-row">
+            <span class="r-tag">TM-Vec</span>
+            <span class="r-tag">局部敏感哈希 LSH</span>
+            <span class="r-tag">蛋白质聚类</span>
+            <span class="r-tag">近似最近邻</span>
+            <span class="r-tag">Linclust</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="research-card">
+          <div class="rcard-top">
+            <div class="rcard-lab">
+              <i class="fa-solid fa-tower-broadcast" style="color:var(--acc);margin-right:.4rem;"></i>
+              无线通信与电磁兼容实验室
+            </div>
+            <div class="rcard-period">2025.09 — 2026.01</div>
+          </div>
+          <div class="rcard-body">
+            应用 <strong>Sentence Transformers + BERTopic</strong> 对基因编辑（CRISPR）领域的论文与专利数据进行主题聚类，利用 c-TF-IDF 提取核心主题关键词；针对关键词缺乏上下文语义关联的特性，设计并实现基于 <strong>CNN</strong> 的关键词编码器，提取关键词内部语义信息，生成高维主题向量。构建"学术研究—工业应用"<strong>二分图</strong>，通过定义专利化程度梯度、关联度梯度等动静态指标，量化分析技术演化趋势并识别具备潜力的研究方向。
+          </div>
+          <div class="tag-row">
+            <span class="r-tag">BERTopic</span>
+            <span class="r-tag">Sentence Transformers</span>
+            <span class="r-tag">CNN 编码器</span>
+            <span class="r-tag">CRISPR</span>
+            <span class="r-tag">二分图分析</span>
+            <span class="r-tag">c-TF-IDF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects" class="sec sec-alt">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Projects</div>
+      <h2 class="sec-title">项目实践</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="project-list fi fi-d1">
+      <div class="project-card" id="proj-1">
+        <button class="project-preview" onclick="toggleProject('proj-1')" aria-expanded="false" aria-controls="proj-detail-1">
+          <!-- <span class="project-ico"><i class="fa-solid fa-brain"></i></span> -->
+          <div class="project-main">
+            <div class="project-title"><h2>DPR-FactChecker</h2></div>
+            <div class="project-preview-txt">
+              基于“先检索、后推理”的级联架构，自动验证给定声明的真实性。支持稀疏+稠密双重检索（BM25 / DPR+FAISS），提供预置语料库与单文档长文本两种核查模式。
+              后端采用 FastAPI + Pydantic 构建，NLI 模型与检索编码器常驻 GPU，实现类型安全、低延迟的高并发推理。
+            </div>
+            <div class="repo-badges">
+              <!-- GitHub 徽章 -->
+              <a href="https://github.com/Yuu-Xie/DPR-FactChecker" target="_blank" rel="noopener noreferrer">
+                  <img src="https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white" alt="GitHub Repository">
+              </a>
+              <!-- Hugging Face 徽章 -->
+              <a href="https://huggingface.co/collections/Yuu-Xie/fever-dpr-dual-encoder" target="_blank" rel="noopener noreferrer">
+                  <img src="https://img.shields.io/badge/🤗-Hugging%20Face%20Models-yellow" alt="Hugging Face Models">
+              </a>
+              <a href="https://huggingface.co/Yuu-Xie/fever-nli-modernbert-large" target="_blank" rel="noopener noreferrer">
+                  <img src="https://img.shields.io/badge/🤗-Hugging%20Face%20Models-yellow" alt="Hugging Face Models">
+              </a>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down project-chevron"></i>
+        </button>
+        <div class="project-detail" id="proj-detail-1">
+          <div class="project-media">
+            <img src="images/DPR-FactChecker.png" alt="DPR-FactChecker 项目框架结构图"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <div class="intl-cert-ph" style="display:none;">
+              <i class="fa-regular fa-image"></i>
+              <p>项目框架结构图</p><small>images/DPR-FactChecker.png</small>
+            </div>
+          </div>
+          <!-- <div class="project-detail-txt">
+            <p><strong>推理模型</strong></p>
+            <p>
+              基于 ModernBERT-large 架构微调自然语言推理（NLI）模型，使用 FEVER 数据集中 208k 条标注数据进行训练，
+              输出 SUPPORTS / REFUTES / NOT ENOUGH INFO 三类判定。验证集 Macro F1 为 0.7676。
+            </p>
+
+            <p style="margin-top:.85rem;"><strong>检索引擎</strong></p>
+            <p>
+              训练了基于双塔 BERT 的稠密段落检索器（DPR）。训练数据取自 FEVER 数据集中具有 Entailment 关系的样本对，
+              采用对比学习将查询和段落编码到统一语义空间。训练最终 Loss 为 0.0002，正样本对角线相似度为 15.5625，
+              而全局平均相似度被控制在 1.7031。赋予了系统在面对庞大语料库时快速召回核心证据片段的能力。
+            </p>
+
+            <p style="margin-top:.85rem;"><strong>系统功能</strong></p>
+            <p>
+              最终，将涵盖了双塔语义召回与单塔深度精排的复杂级联链路，封装于 FastAPI 服务中。开发者均可通过简单的 HTTP 请求获取核查结果，
+              为现代应用中的信息溯源与文本逻辑校验提供了一套高并发、开箱即用的 API 解决方案。
+            </p>
+
+            <p style="margin-top:.85rem;"><strong>模式一：基于全局语料库的事实核查</strong></p>
+            <img src="images/fact-check-response.png" alt="事实核查 API 响应示例" width="100%"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <p style="margin-top:.85rem;"><strong>模式二：基于单篇文档的动态核查</strong></p>
+            <img src="images/fact-check-single-doc.png" alt="单文档核查 API 响应示例" width="100%"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          </div> -->
+          <div class="project-detail-txt">
+            <h3><strong>🧠 推理模型</strong></h3>
+            <p style="margin-top: 0.5rem; color: var(--txt2);">
+              基于 <strong>ModernBERT-large 架构</strong>微调自然语言推理（NLI）模型，使用 FEVER 数据集中 208k 条标注数据进行训练，输出 SUPPORTS / REFUTES / NOT ENOUGH INFO 三类判定。
+            </p>
+            
+            <div style="background: rgba(79, 70, 229, 0.05); border-left: 3px solid var(--pri); padding: 1rem; margin-top: 0.8rem; font-size: 0.9rem; border-radius: 0 4px 4px 0;">
+              <strong style="color: var(--pri); display: inline-block; margin-bottom: 0.4rem;">核心指标 (验证集)：</strong>
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem;">
+                <div>• Accuracy: <strong>0.7683</strong></div>
+                <div>• Macro F1: <strong>0.7676</strong></div>
+                <div>• Macro Precision: <strong>0.7677</strong></div>
+                <div>• Macro Recall: <strong>0.7683</strong></div>
+                <div>• Eval Loss: <strong>0.9718</strong></div>
+              </div>
+            </div>
+            <h3 style="margin-top:1.75rem;"><strong>🔍 检索引擎</strong></h3>
+            <p style="margin-top: 0.5rem; color: var(--txt2);">
+              基于<strong>双塔 BERT 架构</strong>训练稠密段落检索器（DPR）。提取 FEVER 数据集中的 Entailment 样本对，采用<strong>对比学习</strong>将查询与段落编码至统一语义空间，赋予系统在海量语料中快速召回相关证据的能力。
+            </p>
+            <div style="background: rgba(79, 70, 229, 0.05); border-left: 3px solid var(--pri); padding: 1rem; margin-top: 0.8rem; font-size: 0.9rem; border-radius: 0 4px 4px 0;">
+              <strong style="color: var(--pri); display: inline-block; margin-bottom: 0.4rem;">训练表现：</strong>
+              <div style="display: grid; grid-template-columns: 1fr; gap: 0.4rem;">
+                <div>• Final Loss: <strong>0.0002</strong></div>
+                <div>• 正样本对角线相似度 (Diag Sim): <strong>15.56</strong></div>
+                <div>• 全局平均相似度 (All Sim): <strong>1.70</strong></div>
+              </div>
+            </div>
+            <p style="margin-top:1.5rem;"><strong>模式一：基于全局语料库的事实核查</strong></p>
+            <img src="images/fact-check-response.png" alt="事实核查 API 响应示例" width="100%"
+                style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-top: 0.5rem;"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                
+            <p style="margin-top:1.5rem;"><strong>模式二：基于单篇文档的动态核查</strong></p>
+            <img src="images/fact-check-single-doc.png" alt="单文档核查 API 响应示例" width="100%"
+                style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-top: 0.5rem;"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INTERNATIONAL EXCHANGE ═══ -->
+<section id="international" class="sec">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Exchange</div>
+      <h2 class="sec-title">国际交流</h2>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="intl-card fi fi-d1">
+      <!-- Banner -->
+      <div class="intl-banner">
+        <div class="intl-banner-ico">
+          <i class="fa-solid fa-torii-gate"></i>
+        </div>
+        <div class="intl-banner-text">
+          <div class="intl-univ">
+            <i class="fa-solid fa-university" style="font-size:.9em;margin-right:.45rem;opacity:.75;"></i>
+            東京大学
+          </div>
+          <div class="intl-prog">人工知能・コンピュータサイエンス</div>
+          <div class="intl-prog-en">Creativity Education Program — Artificial Intelligence and Computer Science</div>
+        </div>
+        <div class="intl-banner-meta">
+          <div class="meta-lbl">访学时间</div>
+          <div class="meta-val">2025 年 1 月</div>
+        </div>
+      </div>
+      <!-- Body -->
+      <div class="intl-body">
+        <div class="intl-desc">
+          <p>
+            赴<strong>日本东京大学</strong>参与人工智能访学项目（Creativity Education Program — Artificial Intelligence and Computer Science），
+            顺利完成项目答辩并获得<strong>结业证书</strong>，凭借优异表现获教授<strong>亲笔推荐信</strong>。
+          </p>
+          <!-- BrainNexus project -->
+          <div class="intl-project">
+            <div class="intl-project-head">
+              <i class="fa-solid fa-brain"></i>
+              BrainNexus &nbsp;智能协作平台
+            </div>
+            <div class="intl-project-desc">
+              本项目（Brain Nexus）旨在打造一款基于大语言模型（LLM）的智能协同头脑风暴平台。系统融合了 NLP 与 AIGC 技术，支持多用户在跨设备场景下进行实时协作与历史内容追溯。
+              在讨论过程中，平台能够实时进行语言转录与讨论分析，并自动生成思维导图以梳理逻辑脉络。
+              通过智能化萃取高价值创意，并结合数据分析评估方案实施难度，项目成功实现了一个从“灵感激发”到“MVP 方案输出”的实用型 AI 辅助协作工作流。
+            </div>
+          </div>
+        </div>
+        <div class="intl-demo-card">
+          <div class="intl-demo-head">
+            <i class="fa-solid fa-images"></i>
+            BrainNexus Demo 展示
+          </div>
+          <div class="intl-demo-viewer">
+            <button class="intl-demo-btn" onclick="prevIntlDemo()" aria-label="上一张">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="intl-demo-track">
+              <div class="intl-demo-item active" id="intl-demo-0">
+                <img src="images/brainnexus-demo-1.png" alt="BrainNexus Demo 1"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="intl-cert-ph" style="display:none;">
+                  <i class="fa-solid fa-image"></i>
+                  <p>Demo 图 1</p><small>images/brainnexus-demo-1.png</small>
+                </div>
+              </div>
+              <div class="intl-demo-item" id="intl-demo-1">
+                <img src="images/brainnexus-demo-2.png" alt="BrainNexus Demo 2"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div class="intl-cert-ph" style="display:none;">
+                  <i class="fa-solid fa-image"></i>
+                  <p>Demo 图 2</p><small>images/brainnexus-demo-2.png</small>
+                </div>
+              </div>
+            </div>
+            <button class="intl-demo-btn" onclick="nextIntlDemo()" aria-label="下一张">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="intl-demo-dots">
+            <button class="intl-demo-dot active" id="intl-demo-dot-0" onclick="showIntlDemo(0)" aria-label="切换到 Demo 1"></button>
+            <button class="intl-demo-dot" id="intl-demo-dot-1" onclick="showIntlDemo(1)" aria-label="切换到 Demo 2"></button>
+          </div>
+        </div>
+        <!-- Certificate viewer with tabs -->
+        <div class="intl-certs">
+          <div class="intl-cert-tabs">
+            <button class="intl-cert-btn active" id="btn-cert" onclick="switchIntlCert('cert')">
+              <i class="fa-solid fa-certificate" style="margin-right:.35rem;"></i>结业证书
+            </button>
+            <button class="intl-cert-btn" id="btn-rec" onclick="switchIntlCert('rec')">
+              <i class="fa-solid fa-pen-nib" style="margin-right:.35rem;"></i>推荐信
+            </button>
+          </div>
+          <div class="intl-cert-item active" id="cert-item-cert">
+            <div class="intl-cert-wrap">
+              <img src="images/utokyo-cert.png" alt="结业证书"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+              <div class="intl-cert-ph" style="display:none;">
+                <i class="fa-regular fa-id-card"></i>
+                <p>结业证书</p><small>images/utokyo-cert.png</small>
+              </div>
+            </div>
+          </div>
+          <div class="intl-cert-item" id="cert-item-rec">
+            <div class="intl-cert-wrap">
+              <img src="images/utokyo-rec.png" alt="推荐信"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+              <div class="intl-cert-ph" style="display:none;">
+                <i class="fa-solid fa-pen-nib"></i>
+                <p>推荐信</p><small>images/utokyo-rec.png</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p>© 2026 解光宇&ensp;·&ensp;<a href="mailto:xie.cs@outlook.com">xie.cs@outlook.com</a></p>
+  <p class="sub">东北大学 &nbsp;·&nbsp; 计算机科学与技术</p>
+  <p class="license"><small>All rights reserved.</small></p>
+</footer>
+
+<script>
+  // ── Language cert selector ──────────────────────────
+  function selectCert(id) {
+    document.querySelectorAll('.lang-tab').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.cert-panel').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.getElementById('panel-' + id).classList.add('active');
+  }
+
+  // ── Scholarship switcher ──────────────────────────
+  function switchSchol(type) {
+    document.querySelectorAll('.schol-tab').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.schol-panel-content').forEach(el => el.style.display = 'none');
+    document.getElementById('stab-' + type).classList.add('active');
+    document.getElementById('spanel-' + type).style.display = 'block';
+    showSchol(type, 0);
+  }
+  switchSchol('national'); // initialize
+
+  function getCurrentSchol(type) {
+    const panel = document.getElementById('spanel-' + type);
+    const items = panel.querySelectorAll('.schol-img-item');
+    return {
+      total: items.length,
+      current: Array.from(items).findIndex(i => i.classList.contains('active'))
+    };
+  }
+
+  function showSchol(type, idx) {
+    const panel = document.getElementById('spanel-' + type);
+    const items = panel.querySelectorAll('.schol-img-item');
+    const dots = panel.querySelectorAll('.dot');
+    const titleEl = panel.querySelector('.schol-img-title');
+    items.forEach(i => i.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    items[idx].classList.add('active');
+    if (dots.length > 0) dots[idx].classList.add('active');
+    if (titleEl && items[idx].dataset.title) {
+      titleEl.textContent = items[idx].dataset.title;
+    }
+  }
+
+  function nextSchol(type) {
+    const { total, current } = getCurrentSchol(type);
+    showSchol(type, (current + 1) % total);
+  }
+
+  function prevSchol(type) {
+    const { total, current } = getCurrentSchol(type);
+    showSchol(type, (current - 1 + total) % total);
+  }
+
+  function jumpToSchol(type, idx) {
+    showSchol(type, idx);
+  }
+
+  // ── Project card expand/collapse ───────────────────
+  function toggleProject(id) {
+    const card = document.getElementById(id);
+    if (!card) return;
+    const isOpen = card.classList.toggle('open');
+    const btn = card.querySelector('.project-preview');
+    if (btn) btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+
+  // ── Competition accordion ───────────────────────────
+  function toggleComp(wrapperId) {
+    const wrapper = document.getElementById(wrapperId);
+    const certId  = 'cc-' + wrapperId.split('-')[1];
+    const cert    = document.getElementById(certId);
+    const isOpen  = wrapper.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.comp-wrapper.open').forEach(w => {
+      w.classList.remove('open');
+      const n = 'cc-' + w.id.split('-')[1];
+      document.getElementById(n).classList.remove('open');
+    });
+
+    // Open if it wasn't open
+    if (!isOpen) {
+      wrapper.classList.add('open');
+      cert.classList.add('open');
+      // Smooth scroll into view if partially hidden
+      setTimeout(() => {
+        const rect = cert.getBoundingClientRect();
+        if (rect.bottom > window.innerHeight) {
+          cert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 100);
+    }
+  }
+
+  // ── International exchange cert switcher ───────────
+  function switchIntlCert(type) {
+    document.querySelectorAll('.intl-cert-btn').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.intl-cert-item').forEach(el => el.classList.remove('active'));
+    document.getElementById('btn-' + type).classList.add('active');
+    document.getElementById('cert-item-' + type).classList.add('active');
+  }
+
+  // ── International demo carousel ────────────────────
+  function getCurrentIntlDemo() {
+    const items = document.querySelectorAll('.intl-demo-item');
+    return Array.from(items).findIndex(i => i.classList.contains('active'));
+  }
+
+  function showIntlDemo(idx) {
+    const items = document.querySelectorAll('.intl-demo-item');
+    const dots = document.querySelectorAll('.intl-demo-dot');
+    items.forEach(i => i.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    if (!items.length) return;
+    items[idx].classList.add('active');
+    if (dots[idx]) dots[idx].classList.add('active');
+  }
+
+  function nextIntlDemo() {
+    const items = document.querySelectorAll('.intl-demo-item');
+    if (!items.length) return;
+    const current = getCurrentIntlDemo();
+    const next = (current + 1) % items.length;
+    showIntlDemo(next);
+  }
+
+  function prevIntlDemo() {
+    const items = document.querySelectorAll('.intl-demo-item');
+    if (!items.length) return;
+    const current = getCurrentIntlDemo();
+    const prev = (current - 1 + items.length) % items.length;
+    showIntlDemo(prev);
+  }
+
+  // ── Touch swipe for mobile carousels ───────────────
+  function bindSwipe(el, onSwipeRight, onSwipeLeft) {
+    if (!el) return;
+    let startX = 0;
+    let startY = 0;
+    let endX = 0;
+    let endY = 0;
+
+    el.addEventListener('touchstart', e => {
+      const t = e.changedTouches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      endX = startX;
+      endY = startY;
+    }, { passive: true });
+
+    el.addEventListener('touchend', e => {
+      const t = e.changedTouches[0];
+      endX = t.clientX;
+      endY = t.clientY;
+      const dx = endX - startX;
+      const dy = endY - startY;
+      if (Math.abs(dx) < 36 || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx > 0) onSwipeRight();
+      else onSwipeLeft();
+    }, { passive: true });
+  }
+
+  function initMobileSwipe() {
+    bindSwipe(document.querySelector('#spanel-national .schol-carousel-track'), () => prevSchol('national'), () => nextSchol('national'));
+    bindSwipe(document.querySelector('#spanel-school .schol-carousel-track'), () => prevSchol('school'), () => nextSchol('school'));
+    bindSwipe(document.querySelector('#spanel-innovation .schol-carousel-track'), () => prevSchol('innovation'), () => nextSchol('innovation'));
+    bindSwipe(document.querySelector('.intl-demo-track'), prevIntlDemo, nextIntlDemo);
+  }
+  initMobileSwipe();
+
+  // ── Hero typing effect ─────────────────────────────
+  function startHeroTyping() {
+    const bio = document.querySelector('.hero-bio');
+    if (!bio) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const tokens = [];
+    Array.from(bio.childNodes).forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const txt = node.textContent.replace(/\s*\n\s*/g, '').trim();
+        if (!txt) return;
+        txt.split('').forEach(ch => tokens.push(ch));
+        return;
+      }
+      if (node.nodeName === 'BR') tokens.push('<br>');
+    });
+    if (!tokens.length) return;
+
+    bio.textContent = '';
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    cursor.textContent = '|';
+    bio.appendChild(cursor);
+
+    let idx = 0;
+    function tick() {
+      if (idx >= tokens.length) {
+        cursor.remove();
+        return;
+      }
+      cursor.remove();
+      const token = tokens[idx++];
+      if (token === '<br>') bio.appendChild(document.createElement('br'));
+      else bio.appendChild(document.createTextNode(token));
+      bio.appendChild(cursor);
+
+      const pause = /[，。,.!?]/.test(token) ? 130 : 28;
+      setTimeout(tick, pause);
+    }
+    setTimeout(tick, 220);
+  }
+  startHeroTyping();
+
+  // ── Hero orb desktop parallax ──────────────────────
+  function initHeroOrbParallax() {
+    const hero = document.getElementById('hero');
+    const orb1 = document.querySelector('.hero-orb-1');
+    const orb2 = document.querySelector('.hero-orb-2');
+    const orb3 = document.querySelector('.hero-orb-3');
+    if (!hero || !orb1 || !orb2 || !orb3) return;
+    if (window.matchMedia('(max-width: 860px)').matches) return;
+    if (!window.matchMedia('(pointer:fine) and (hover:hover)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const state = { tx: 0, ty: 0, cx: 0, cy: 0 };
+    const strengths = [30, 22, 16];
+    const orbs = [orb1, orb2, orb3];
+
+    function frame() {
+      state.cx += (state.tx - state.cx) * 0.14;
+      state.cy += (state.ty - state.cy) * 0.14;
+      for (let i = 0; i < orbs.length; i++) {
+        const dx = state.cx * strengths[i];
+        const dy = state.cy * strengths[i] * 0.72;
+        orbs[i].style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
+      }
+      requestAnimationFrame(frame);
+    }
+
+    hero.addEventListener('mousemove', e => {
+      const rect = hero.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      state.tx = (px - 0.5) * 2;
+      state.ty = (py - 0.5) * 2;
+    }, { passive: true });
+
+    hero.addEventListener('mouseleave', () => {
+      state.tx = 0;
+      state.ty = 0;
+    }, { passive: true });
+
+    frame();
+  }
+  initHeroOrbParallax();
+
+  // ── Mobile nav ──────────────────────────────────────
+  function toggleNav() {
+    const links = document.getElementById('navLinks');
+    const icon  = document.getElementById('hambIcon');
+    const open  = links.classList.toggle('open');
+    icon.className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('hambIcon').className = 'fa-solid fa-bars';
+    });
+  });
+
+  // ── Navbar scroll shadow ─────────────────────────────
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // ── Scroll-reveal ────────────────────────────────────
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fi').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
