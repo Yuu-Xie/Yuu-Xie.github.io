@@ -27,7 +27,7 @@
 
     /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 22px; }
+    html { scroll-behavior: smooth; font-size: 18px; }
     body {
       font-family: 'Inter', 'Noto Sans SC', sans-serif;
       background: var(--bg);
@@ -1601,11 +1601,11 @@
         </div>
         <div class="comp-cert" id="cc-1">
           <div class="comp-cert-inner">
-            <img src="images/comp-raicom-2025.jpg" alt="RAICOM 2025 一等奖证书"
+            <img src="images/comp-raicom-2025.png" alt="RAICOM 2025 一等奖证书"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
             <div class="comp-cert-ph" style="display:none;">
               <i class="fa-regular fa-image"></i>
-              <p>获奖证书图片</p><small>images/comp-raicom-2025.jpg</small>
+              <p>获奖证书图片</p><small>images/comp-raicom-2025.png</small>
             </div>
           </div>
         </div>
@@ -1624,11 +1624,11 @@
         </div>
         <div class="comp-cert" id="cc-2">
           <div class="comp-cert-inner">
-            <img src="images/comp-ladder-2025.png" alt="天梯赛 2025 二等奖证书"
+            <img src="images/comp-tiantisai-2025.png" alt="天梯赛 2025 二等奖证书"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
             <div class="comp-cert-ph" style="display:none;">
               <i class="fa-regular fa-image"></i>
-              <p>获奖证书图片</p><small>images/comp-ladder-2025.png</small>
+              <p>获奖证书图片</p><small>images/comp-tiantisai-2025.png</small>
             </div>
           </div>
         </div>
@@ -1693,11 +1693,11 @@
         </div>
         <div class="comp-cert" id="cc-5">
           <div class="comp-cert-inner">
-            <img src="images/comp-ladder-2024.png" alt="天梯赛 2024 三等奖证书"
+            <img src="images/comp-tiantisai-2024.png" alt="天梯赛 2024 三等奖证书"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
             <div class="comp-cert-ph" style="display:none;">
               <i class="fa-regular fa-image"></i>
-              <p>获奖证书图片</p><small>images/comp-ladder-2024.png</small>
+              <p>获奖证书图片</p><small>images/comp-tiantisai-2024.png</small>
             </div>
           </div>
         </div>
@@ -1716,11 +1716,11 @@
         </div>
         <div class="comp-cert" id="cc-6">
           <div class="comp-cert-inner">
-            <img src="images/comp-baidustar-2024.png" alt="百度之星 2024 银奖证书"
+            <img src="images/comp-Astar-2024.png" alt="百度之星 2024 银奖证书"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
             <div class="comp-cert-ph" style="display:none;">
               <i class="fa-regular fa-image"></i>
-              <p>获奖证书图片</p><small>images/comp-baidustar-2024.png</small>
+              <p>获奖证书图片</p><small>images/comp-Astar-2024.png</small>
             </div>
           </div>
         </div>
@@ -1739,11 +1739,11 @@
         </div>
         <div class="comp-cert" id="cc-7">
           <div class="comp-cert-inner">
-            <img src="images/comp-hebei-2024.png" alt="河北省竞赛 2024 银奖证书"
+            <img src="images/comp-hbcpc-2024.png" alt="河北省竞赛 2024 银奖证书"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
             <div class="comp-cert-ph" style="display:none;">
               <i class="fa-regular fa-image"></i>
-              <p>获奖证书图片</p><small>images/comp-hebei-2024.png</small>
+              <p>获奖证书图片</p><small>images/comp-hbcpc-2024.png</small>
             </div>
           </div>
         </div>
@@ -1793,15 +1793,15 @@
             <div class="rcard-period">2025.09 — 2026.01</div>
           </div>
           <div class="rcard-body">
-            应用 <strong>Sentence Transformers + BERTopic</strong> 对基因编辑（CRISPR）领域的论文与专利数据进行主题聚类，利用 c-TF-IDF 提取核心主题关键词；针对关键词缺乏上下文语义关联的特性，设计并实现基于 <strong>CNN</strong> 的关键词编码器，提取关键词内部语义信息，生成高维主题向量。构建"学术研究—工业应用"<strong>二分图</strong>，通过定义专利化程度梯度、关联度梯度等动静态指标，量化分析技术演化趋势并识别具备潜力的研究方向。
+            应用 <strong>Sentence Transformers + BERTopic</strong> 对基因编辑（CRISPR）领域的论文与专利数据进行主题聚类，利用 c-TF-IDF 提取核心主题关键词；针对主题关键词缺乏句子级上下文、仅存在短距离字符依赖的问题，设计 <strong>TextCNN 关键词编码器</strong>，利用多尺寸一维卷积核并行提取词内 n-gram 局部特征，经最大池化生成稠密语义向量。构建"学术研究—工业应用"<strong>二分图</strong>，通过定义专利化程度梯度、关联度梯度等动静态指标，量化分析技术演化趋势并识别具备潜力的研究方向。
           </div>
           <div class="tag-row">
             <span class="r-tag">BERTopic</span>
-            <span class="r-tag">Sentence Transformers</span>
-            <span class="r-tag">CNN 编码器</span>
-            <span class="r-tag">CRISPR</span>
-            <span class="r-tag">二分图分析</span>
             <span class="r-tag">c-TF-IDF</span>
+            <span class="r-tag">Sentence Transformers</span>
+            <span class="r-tag">TextCNN</span>
+            <span class="r-tag">CRISPR</span>
+            <span class="r-tag">二分图</span>
           </div>
         </div>
       </div>
