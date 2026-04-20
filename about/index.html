@@ -1852,33 +1852,6 @@
               <p>项目框架结构图</p><small>images/DPR-FactChecker.png</small>
             </div>
           </div>
-          <!-- <div class="project-detail-txt">
-            <p><strong>推理模型</strong></p>
-            <p>
-              基于 ModernBERT-large 架构微调自然语言推理（NLI）模型，使用 FEVER 数据集中 208k 条标注数据进行训练，
-              输出 SUPPORTS / REFUTES / NOT ENOUGH INFO 三类判定。验证集 Macro F1 为 0.7676。
-            </p>
-
-            <p style="margin-top:.85rem;"><strong>检索引擎</strong></p>
-            <p>
-              训练了基于双塔 BERT 的稠密段落检索器（DPR）。训练数据取自 FEVER 数据集中具有 Entailment 关系的样本对，
-              采用对比学习将查询和段落编码到统一语义空间。训练最终 Loss 为 0.0002，正样本对角线相似度为 15.5625，
-              而全局平均相似度被控制在 1.7031。赋予了系统在面对庞大语料库时快速召回核心证据片段的能力。
-            </p>
-
-            <p style="margin-top:.85rem;"><strong>系统功能</strong></p>
-            <p>
-              最终，将涵盖了双塔语义召回与单塔深度精排的复杂级联链路，封装于 FastAPI 服务中。开发者均可通过简单的 HTTP 请求获取核查结果，
-              为现代应用中的信息溯源与文本逻辑校验提供了一套高并发、开箱即用的 API 解决方案。
-            </p>
-
-            <p style="margin-top:.85rem;"><strong>模式一：基于全局语料库的事实核查</strong></p>
-            <img src="images/fact-check-response.png" alt="事实核查 API 响应示例" width="100%"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-            <p style="margin-top:.85rem;"><strong>模式二：基于单篇文档的动态核查</strong></p>
-            <img src="images/fact-check-single-doc.png" alt="单文档核查 API 响应示例" width="100%"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-          </div> -->
           <div class="project-detail-txt">
             <h3><strong>🧠 推理模型</strong></h3>
             <p style="margin-top: 0.5rem; color: var(--txt2);">
@@ -1903,8 +1876,9 @@
               <strong style="color: var(--pri); display: inline-block; margin-bottom: 0.4rem;">训练表现：</strong>
               <div style="display: grid; grid-template-columns: 1fr; gap: 0.4rem;">
                 <div>• Final Loss: <strong>0.0002</strong></div>
-                <div>• 正样本对角线相似度 (Diag Sim): <strong>15.56</strong></div>
-                <div>• 全局平均相似度 (All Sim): <strong>1.70</strong></div>
+                <div>• 正样本相似度 (余弦): <strong>0.76</strong></div>
+                <div>• 负样本平均相似度 (余弦): <strong>0.08</strong></div>
+                <div>• 正负样本间隔 (Margin): <strong>0.68</strong></div>
               </div>
             </div>
             <p style="margin-top:1.5rem;"><strong>模式一：基于全局语料库的事实核查</strong></p>
